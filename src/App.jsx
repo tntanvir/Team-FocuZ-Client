@@ -14,32 +14,52 @@ import React, { useEffect, useState } from "react";
 const App = () => {
   const refreshToken = async () => {
     const refresh = sessionStorage.getItem("refresh");
+
+    if (!refresh) {
+      console.warn("No refresh token found. Cannot refresh access token.");
+      return;
+    }
+
     try {
-      const res = await fetch("https://team-focu-z-backend.vercel.app/api/token/refresh/", {
+      const res = await fetch("https://team-focu-z-backend.vercel.app/auth/refresh/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ refresh }),
       });
+
       const data = await res.json();
-      if (data.access) {
+
+      // ✅ Check if both access and refresh tokens are returned
+      if (data.access && data.refresh) {
         sessionStorage.setItem("access", data.access);
+        sessionStorage.setItem("refresh", data.refresh);
+        console.log("✅ Access and refresh token updated");
+      } else if (data.access) {
+        sessionStorage.setItem("access", data.access);
+        console.log("✅ Access token refreshed (no new refresh token)");
+      } else {
+        console.warn("⚠️ Failed to get new access token", data);
       }
+
     } catch (err) {
-      console.error("Token refresh failed:", err);
+      console.error("❌ Token refresh failed:", err);
     }
   };
 
+
   useEffect(() => {
     const interval = setInterval(() => {
-      if (!sessionStorage.getItem("refresh")) {
+      if (sessionStorage.getItem("refresh")) {
+        console.log("⏳ Refreshing token...");
         refreshToken();
       }
-    }, 5 * 60 * 1000); // 5 minutes
+    }, 1 * 60 * 1000); // Every 5 minutes
 
     return () => clearInterval(interval);
   }, []);
+
   return (
     <BrowserRouter>
       <Routes>
