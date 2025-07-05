@@ -55,7 +55,7 @@ export default function Login() {
                         </div>
                     </div>
                     <h2 className="text-center text-2xl font-bold mb-2">স্বাগতম</h2>
-                    <p className="text-center mb-6 text-gray-600">আপনার অ্যাকাউন্টে লগইন করুন</p>
+                    <p className="text-center mb-6 text-gray-600">আপনার অ্যাকাউন্ট লগইন করুন</p>
 
                     <form className="space-y-4" onSubmit={handleLogin}>
                         <div>
@@ -101,11 +101,7 @@ export default function Login() {
                     </form>
 
                     {/* Demo Info */}
-                    <div className="bg-gray-100 p-4 mt-6 text-sm rounded">
-                        <p><strong>ডেমো অ্যাকাউন্টঃ</strong></p>
-                        <div className='flex justify-between'><span>Super Admin:</span> <span><code>tntanvir</code> | <code>123</code></span></div>
 
-                    </div>
                 </div>
             </div>
         </div>

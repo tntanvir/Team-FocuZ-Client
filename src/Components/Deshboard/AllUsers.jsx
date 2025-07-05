@@ -177,140 +177,98 @@ export default function AllUsers() {
 
 
 
+
 function EditUserModal({ user, onClose, onSave }) {
     const [formData, setFormData] = useState({ ...user });
     const [teams, setTeams] = useState([]);
+    const [selectedTeam, setSelectedTeam] = useState(null);
 
     useEffect(() => {
         setFormData({ ...user });
-
     }, [user]);
+
     useEffect(() => {
         fetch('https://team-focu-z-backend.vercel.app/team/teams/', {
-            method: "GET",
             headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${sessionStorage.getItem("access")}`,
             }
-        }).then((res) => res.json())
+        })
+            .then((res) => res.json())
             .then((data) => setTeams(data))
             .catch((err) => console.error("Failed to fetch teams:", err));
-    }, [])
+    }, []);
 
     const handleChange = (e) => {
-
-        if (e.target.value === "manager") {
-            // console.log(teams)
-            // console.log(formData)
-            const data = teams.filter((team) => team.name === formData.teams[0]);
-            // console.log(formData.id)
-            const users = data[0].users.map((u) => u.id);
-            // console.log(users)
-
-            fetch(`https://team-focu-z-backend.vercel.app/auth/team/${formData.id}/update/`, {
-                method: "PATCH",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${sessionStorage.getItem("access")}`,
-                },
-                body: JSON.stringify({
-                    users: users,
-                    manager: user.id,
-                }),
-            })
-                .then((res) => {
-                    if (res.ok) {
-                        console.log("✅ Team updated successfully");
-                        setFormData({ ...formData, [e.target.name]: e.target.value });
-                        return res.json();
-                    } else {
-                        throw new Error("❌ Failed to update team");
-                    }
-                })
-                .then((data) => console.log(data))
-                .catch((err) => console.error(err));
-        }
-
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+        const { name, value } = e.target;
+        setFormData((prev) => ({ ...prev, [name]: value }));
     };
 
-
-    const teamshandleChange = (e) => {
-        const selectedTeamName = e.target.value;
-
-        // Find the full team object
-        const selectedTeam = teams.find((team) => team.name === selectedTeamName);
-
-        if (selectedTeam) {
-            const selectedTeamId = selectedTeam.id;
-
-            // Step 1: Get all existing user IDs
-            const existingUserIds = selectedTeam.users.map((u) => u.id);
-
-            // Step 2: Add the current user.id if not already in list
-            if (!existingUserIds.includes(user.id)) {
-                existingUserIds.push(user.id);
-            }
-
-            // Step 3: Send PATCH request with updated user list
-            fetch(`https://team-focu-z-backend.vercel.app/auth/team/${selectedTeamId}/update/`, {
-                method: "PATCH",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${sessionStorage.getItem("access")}`,
-                },
-                body: JSON.stringify({
-                    users: existingUserIds,
-                }),
-            })
-                .then((res) => {
-                    if (res.ok) {
-                        console.log("✅ Team updated successfully");
-                        return res.json();
-                    } else {
-                        throw new Error("❌ Failed to update team");
-                    }
-                })
-                .then((data) => console.log(data))
-                .catch((err) => console.error(err));
-        } else {
-            console.error("❌ Selected team not found");
-        }
+    const handleTeamChange = (e) => {
+        const teamName = e.target.value;
+        setSelectedTeam(teamName);
     };
-
-
-
-
 
     const handleSubmit = async () => {
         try {
+            // Update user info including role
             const res = await fetch(`https://team-focu-z-backend.vercel.app/auth/alluser/${user.id}/`, {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
-                    "Authorization": `Bearer ${sessionStorage.getItem("access")}`,
+                    Authorization: `Bearer ${sessionStorage.getItem("access")}`,
                 },
                 body: JSON.stringify(formData),
             });
 
-            if (res.ok) {
-                const updatedUser = await res.json();
-                onSave(updatedUser);
-            } else {
-                console.error("Update failed");
+            if (!res.ok) throw new Error("❌ User update failed");
+
+            const updatedUser = await res.json();
+
+            // Then update team if selected
+            if (selectedTeam) {
+                const teamObj = teams.find((t) => t.name === selectedTeam);
+                if (teamObj) {
+                    let existingUsers = teamObj.users.map((u) => u.id);
+                    if (!existingUsers.includes(user.id)) {
+                        existingUsers.push(user.id);
+                    }
+
+                    // If the role is 'manager', assign manager
+                    const teamUpdateBody = {
+                        users: existingUsers,
+                        ...(formData.role === "manager" ? { manager: user.id } : {}),
+                    };
+
+                    const teamRes = await fetch(`https://team-focu-z-backend.vercel.app/auth/team/${teamObj.id}/update/`, {
+                        method: "PATCH",
+                        headers: {
+                            "Content-Type": "application/json",
+                            Authorization: `Bearer ${sessionStorage.getItem("access")}`,
+                        },
+                        body: JSON.stringify(teamUpdateBody),
+                    });
+
+                    if (!teamRes.ok) throw new Error("❌ Team update failed");
+                    const teamData = await teamRes.json();
+                    console.log("✅ Team updated:", teamData);
+                }
             }
+
+            onSave(updatedUser);
         } catch (err) {
-            console.error("Error updating user:", err);
+            console.error(err);
         }
-        // console.log(JSON.stringify(formData))
     };
 
     return (
         <div className="fixed inset-0 bg-black bg-opacity-30 flex justify-center items-center z-50">
             <div className="bg-white w-[90%] max-w-md p-6 rounded shadow">
                 <h2 className="text-xl font-bold mb-4">ইউজার সম্পাদনা</h2>
+
                 <input className="w-full border p-2 mb-3" name="Name" value={formData.Name || ""} onChange={handleChange} placeholder="নাম" />
                 <input className="w-full border p-2 mb-3" name="email" value={formData.email || ""} onChange={handleChange} placeholder="ইমেইল" />
+
                 <select className="w-full border p-2 mb-3" name="role" value={formData.role || ""} onChange={handleChange}>
                     <option value="">--রোল বেছে নিন--</option>
                     <option value="admin">সুপার অ্যাডমিন</option>
@@ -320,20 +278,16 @@ function EditUserModal({ user, onClose, onSave }) {
                     <option value="voice artist">ভয়েস আর্টিস্ট</option>
                 </select>
 
-                <select className="w-full border p-2 mb-3" name="role" value={formData.teams || ""} onChange={teamshandleChange}>
-                    <option value="">--রোল বেছে নিন--</option>
-                    {
-                        teams.map((team) => (
-                            <option key={team.id} value={team.name}>
-                                {team.name}
-
-                            </option>
-                        ))
-                    }
-
+                <select className="w-full border p-2 mb-3" name="team" value={selectedTeam || ""} onChange={handleTeamChange}>
+                    <option value="">--টিম বেছে নিন--</option>
+                    {teams.map((team) => (
+                        <option key={team.id} value={team.name}>{team.name}</option>
+                    ))}
                 </select>
+
                 <input className="w-full border p-2 mb-3" name="Phone" value={formData.Phone || ""} onChange={handleChange} placeholder="ফোন" />
                 <textarea className="w-full border p-2 mb-3" name="Address" value={formData.Address || ""} onChange={handleChange} placeholder="ঠিকানা" />
+
                 <div className="flex justify-between">
                     <button className="bg-blue-600 text-white px-4 py-2 rounded" onClick={handleSubmit}>আপডেট করুন</button>
                     <button className="bg-gray-400 text-white px-4 py-2 rounded" onClick={onClose}>বাতিল</button>

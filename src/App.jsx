@@ -11,6 +11,7 @@ import AllFiels from "./Components/Deshboard/AllFiels";
 import TeamManagement from "./Components/Deshboard/TeamManagement";
 import Report from "./Components/Deshboard/Report";
 import React, { useEffect, useState } from "react";
+import Myteam from "./Components/Deshboard/Myteam";
 const App = () => {
   const refreshToken = async () => {
     const refresh = sessionStorage.getItem("refresh");
@@ -60,6 +61,10 @@ const App = () => {
     return () => clearInterval(interval);
   }, []);
 
+
+
+
+
   return (
     <BrowserRouter>
       <Routes>
@@ -67,10 +72,12 @@ const App = () => {
         <Route path="/signup" element={<Signup />} />
         <Route path="/" element={<Navigate to="/dashboard/user" />} />
         <Route path="/dashboard" element={<Privetroute><DashboardLayout /></Privetroute>}>
+
           <Route path="main" element={<MainDeshboard />} />
           <Route path="user" element={<AllUsers />} />
           <Route path="upload" element={<Fileupload />} />
           <Route path="team" element={<TeamManagement />} />
+          <Route path="myteam" element={<Myteam />} />
           <Route path="files" element={<AllFiels />} />
           <Route path="report" element={<Report />} />
           <Route path="settings" element={<div>Settings</div>} />
