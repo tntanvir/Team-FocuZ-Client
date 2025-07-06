@@ -33,6 +33,41 @@ const linkClass = ({ isActive }) =>
 export default function Sidebar() {
 
     const [role, setRole] = useState(null);
+    const refreshToken = async () => {
+        const refresh = sessionStorage.getItem("refresh");
+
+        if (!refresh) {
+            console.warn("No refresh token found. Cannot refresh access token.");
+            return;
+        }
+
+        try {
+            const res = await fetch("https://team-focu-z-backend.vercel.app/auth/refresh/", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ refresh }),
+            });
+
+            const data = await res.json();
+
+            // ✅ Check if both access and refresh tokens are returned
+            if (data.access && data.refresh) {
+                sessionStorage.setItem("access", data.access);
+                sessionStorage.setItem("refresh", data.refresh);
+                console.log("✅ Access and refresh token updated");
+            } else if (data.access) {
+                sessionStorage.setItem("access", data.access);
+                console.log("✅ Access token refreshed (no new refresh token)");
+            } else {
+                console.warn("⚠️ Failed to get new access token", data);
+            }
+
+        } catch (err) {
+            console.error("❌ Token refresh failed:", err);
+        }
+    };
 
     useEffect(() => {
         const userStr = sessionStorage.getItem("user");
