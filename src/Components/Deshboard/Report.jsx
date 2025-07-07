@@ -17,7 +17,7 @@ export default function Report() {
     const [reportData, setReportData] = useState([]);
 
     useEffect(() => {
-        fetch("https://team-focu-z-backend.vercel.app/report/report/")
+        fetch("http://127.0.0.1:8000/report/report/")
             .then((res) => res.json())
             .then((data) => setReportData(data));
     }, []);

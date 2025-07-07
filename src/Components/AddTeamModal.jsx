@@ -10,7 +10,7 @@ const AddTeamModal = ({ isOpen, onClose, onTeamAdded }) => {
         const fetchUsers = async () => {
             try {
                 const accessToken = sessionStorage.getItem("access");
-                const response = await fetch('https://team-focu-z-backend.vercel.app/auth/users/', {
+                const response = await fetch('http://127.0.0.1:8000/auth/users/', {
                     headers: {
                         Authorization: `Bearer ${accessToken}`
                     }
@@ -30,7 +30,7 @@ const AddTeamModal = ({ isOpen, onClose, onTeamAdded }) => {
         try {
             const accessToken = sessionStorage.getItem("access");
 
-            const response = await fetch('https://team-focu-z-backend.vercel.app/team/teams/', {
+            const response = await fetch('http://127.0.0.1:8000/team/teams/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

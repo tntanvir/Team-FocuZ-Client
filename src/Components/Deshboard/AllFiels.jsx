@@ -80,7 +80,7 @@ const AllFiels = () => {
     useEffect(() => {
         const fetchUserRole = async () => {
             const access = sessionStorage.getItem("access");
-            const response = await fetch('https://team-focu-z-backend.vercel.app/auth/profile/', {
+            const response = await fetch('http://127.0.0.1:8000/auth/profile/', {
                 headers: {
                     Authorization: `Bearer ${access}`,
                 },
@@ -95,7 +95,7 @@ const AllFiels = () => {
     useEffect(() => {
         if (role === 'admin') {
 
-            fetch("https://team-focu-z-backend.vercel.app/media/data/", {
+            fetch("http://127.0.0.1:8000/media/data/", {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -107,7 +107,7 @@ const AllFiels = () => {
                 .catch((err) => console.error("Fetch error:", err));
         }
         if (role !== 'admin') {
-            fetch("https://team-focu-z-backend.vercel.app/media/admin/data/", {
+            fetch("http://127.0.0.1:8000/media/admin/data/", {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -115,7 +115,10 @@ const AllFiels = () => {
                 }
             })
                 .then((res) => res.json())
-                .then((data) => setFiles(data))
+                .then((data) => {
+                    setFiles(data)
+                    console.log(data)
+                })
                 .catch((err) => console.error("Fetch error:", err));
         }
     }, [role]);
