@@ -13,6 +13,7 @@ import Report from "./Components/Deshboard/Report";
 import React, { useEffect, useState } from "react";
 import Myteam from "./Components/Deshboard/Myteam";
 import ChangePassword from "./Components/Deshboard/ChangePassword";
+import SidebarContext from "./Utils/SidebarContext";
 
 
 
@@ -74,24 +75,24 @@ const App = () => {
     <BrowserRouter>
 
 
+      <SidebarContext>
+        <Routes>
+          <Route path="/signin" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/" element={<Navigate to="/dashboard/user" />} />
+          <Route path="/dashboard" element={<Privetroute><DashboardLayout /></Privetroute>}>
 
-      <Routes>
-        <Route path="/signin" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/" element={<Navigate to="/dashboard/user" />} />
-        <Route path="/dashboard" element={<Privetroute><DashboardLayout /></Privetroute>}>
-
-          <Route path="main" element={<MainDeshboard />} />
-          <Route path="user" element={<AllUsers />} />
-          <Route path="upload" element={<Fileupload />} />
-          <Route path="team" element={<TeamManagement />} />
-          <Route path="myteam" element={<Myteam />} />
-          <Route path="files" element={<AllFiels />} />
-          <Route path="report" element={<Report />} />
-          <Route path="settings" element={<ChangePassword />} />
-        </Route>
-      </Routes>
-
+            <Route path="main" element={<MainDeshboard />} />
+            <Route path="user" element={<AllUsers />} />
+            <Route path="upload" element={<Fileupload />} />
+            <Route path="team" element={<TeamManagement />} />
+            <Route path="myteam" element={<Myteam />} />
+            <Route path="files" element={<AllFiels />} />
+            <Route path="report" element={<Report />} />
+            <Route path="settings" element={<ChangePassword />} />
+          </Route>
+        </Routes>
+      </SidebarContext>
     </BrowserRouter>
   );
 };

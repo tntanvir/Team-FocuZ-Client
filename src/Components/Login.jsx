@@ -38,7 +38,7 @@ export default function Login() {
             <div className="grid md:grid-cols-2 w-full max-w-6xl bg-transparent   overflow-hidden  ">
                 {/* Left Section */}
                 <div className="text-white p-8 space-y-4  flex flex-col justify-center items-start">
-                    <h1 className="text-4xl font-bold">Team FocuZ</h1>
+                    <h1 className="text-4xl font-bold">Dream FocuZ</h1>
                     <h2 className="text-xl font-semibold">মাল্টি-টিম মিডিয়া প্রজেক্ট ম্যানেজমেন্ট প্ল্যাটফর্ম</h2>
                     <ul className="list-disc list-inside space-y-2 mt-4">
                         <li>ভিডিও এডিটার, স্ক্রিপ্ট রাইটার ও ভয়েস আর্টিস্ট</li>

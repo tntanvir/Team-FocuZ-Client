@@ -24,6 +24,21 @@ export default function Fileupload() {
         fetchUserRole();
     }, []);
 
+
+    useEffect(() => {
+
+        if (role === "script writer") {
+
+            setTag("script");
+        } else if (role === "voice artist") {
+
+            setTag("voice");
+        } else if (role === "video editor") {
+            s
+            setTag("video");
+        }
+    }, [role]);
+
     const handleFileChange = (e) => {
         const selectedFile = e.target.files[0];
 
@@ -291,7 +306,7 @@ export default function Fileupload() {
                             <input
                                 type="text"
                                 value={tag}
-                                onChange={(e) => setTag(e.target.value)}
+                                // onChange={(e) => setTag(e.target.value)}
                                 placeholder="ট্যাগ (যেমন: ভিডিও, স্ক্রিপ্ট, ভয়েস)"
                                 className="w-full p-4 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all"
                             />

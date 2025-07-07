@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { FaUserCircle, FaSyncAlt } from "react-icons/fa";
 import { IoIosLogOut } from 'react-icons/io';
+import { RiMenuFold2Line } from 'react-icons/ri';
 import { useNavigate } from 'react-router-dom';
+import { DrawerContext } from '../Utils/SidebarContext';
 
 const Navber = () => {
     const [user, setUser] = useState(null);
@@ -69,10 +71,13 @@ const Navber = () => {
         }
     };
 
-
+    const { open, openDrawer, closeDrawer } = useContext(DrawerContext);
     return (
         <div className="flex text-black justify-between items-center p-4 bg-white shadow-md">
-            <h2 className="text-2xl font-bold text-blue-800">Team FocuZ</h2>
+            <div className='flex items-center gap-2 '>
+                <RiMenuFold2Line onClick={openDrawer} className='md:hidden block' />
+                <h2 className="text-2xl font-bold text-blue-800">Dream FocuZ</h2>
+            </div>
 
             <div className="flex items-center gap-4">
                 <span className="flex items-center gap-2 font-semibold">

@@ -75,9 +75,7 @@ export default function AllUsers() {
                     <h2 className="text-2xl font-bold">ইউজার ম্যানেজমেন্ট</h2>
                     <p className="text-sm text-gray-600">সমস্ত ইউজার পরিচালনা ও নিয়ন্ত্রণ করুন</p>
                 </div>
-                <button className="bg-emerald-600 text-white px-4 py-2 rounded hover:bg-emerald-700 transition">
-                    + নতুন ইউজার যোগ করুন
-                </button>
+
             </div>
 
             {/* Filter and Search */}
@@ -113,6 +111,7 @@ export default function AllUsers() {
                             <th className="px-4 py-2">ইমেইল</th>
                             <th className="px-4 py-2">রোল</th>
                             <th className="px-4 py-2">টিম</th>
+                            <th className="px-4 py-2">স্ট্যাটাস</th>
                             <th className="px-4 py-2">অ্যাকশন</th>
                         </tr>
                     </thead>
@@ -166,6 +165,14 @@ export default function AllUsers() {
                                         <span className="text-sm text-gray-400">কোন টিম নেই</span>
                                     )}
                                 </td>
+                                <td>
+                                    <span
+                                        className={`px-2 py-1 rounded-full text-xs font-medium ${user.is_active ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"
+                                            }`}
+                                    >
+                                        {user.is_active ? "সক্রিয়" : "নিষ্ক্রিয়"}
+                                    </span>
+                                </td>
                                 <td className="px-4 py-3 flex items-center gap-3 text-lg">
                                     <button
                                         className="text-blue-600 hover:text-blue-800"
@@ -204,15 +211,232 @@ export default function AllUsers() {
     );
 }
 
+// function EditUserModal({ user, onClose, onSave, teams, allUsers }) {
+//     const [formData, setFormData] = useState({ ...user });
+//     const [selectedTeamName, setSelectedTeamName] = useState(
+//         user?.teams?.[0]?.name || ""
+//     );
+
+//     useEffect(() => {
+//         setFormData({ ...user });
+//         setSelectedTeamName(user?.teams?.[0]?.name || "");
+//     }, [user]);
+
+//     // Change handler for inputs
+//     const handleChange = (e) => {
+//         const { name, value } = e.target;
+//         setFormData((prev) => ({ ...prev, [name]: value }));
+//     };
+
+//     // Change handler for team selection
+//     const handleTeamChange = (e) => {
+//         setSelectedTeamName(e.target.value);
+//     };
+
+//     // Helper to find team by name
+//     const getTeamByName = (name) => teams.find((t) => t.name === name);
+
+//     // Submit handler to update user and team
+//     const handleSubmit = async () => {
+//         try {
+//             // Validate manager uniqueness if role is manager
+//             if (formData.role === "manager") {
+//                 const selectedTeam = getTeamByName(selectedTeamName);
+//                 if (
+//                     selectedTeam?.manager &&
+//                     selectedTeam.manager !== user.id
+//                 ) {
+//                     alert("⚠️ এই টিমে ইতিমধ্যে একজন ম্যানেজার আছে।");
+//                     return;
+//                 }
+//             }
+
+//             // Update user info first
+//             const res = await fetch(
+//                 `https://team-focu-z-backend.vercel.app/auth/alluser/${user.id}/`,
+//                 {
+//                     method: "PATCH",
+//                     headers: {
+//                         "Content-Type": "application/json",
+//                         Authorization: `Bearer ${sessionStorage.getItem("access")}`,
+//                     },
+//                     body: JSON.stringify(formData),
+//                 }
+//             );
+//             if (!res.ok) throw new Error("User update failed");
+//             const updatedUser = await res.json();
+
+//             // Remove user from any other teams if changing team
+//             for (const team of teams) {
+//                 if (
+//                     team.users.some((u) => u.id === user.id) &&
+//                     team.name !== selectedTeamName
+//                 ) {
+//                     const newUsers = team.users.filter((u) => u.id !== user.id);
+//                     const teamUpdateBody = {
+//                         users: newUsers.map((u) => u.id),
+//                         // if manager was user, clear manager on old team
+//                         ...(team.manager === user.id ? { manager: null } : {}),
+//                     };
+//                     const res = await fetch(
+//                         `https://team-focu-z-backend.vercel.app/auth/team/${team.id}/update/`,
+//                         {
+//                             method: "PATCH",
+//                             headers: {
+//                                 "Content-Type": "application/json",
+//                                 Authorization: `Bearer ${sessionStorage.getItem("access")}`,
+//                             },
+//                             body: JSON.stringify(teamUpdateBody),
+//                         }
+//                     );
+//                     if (!res.ok)
+//                         throw new Error("Failed to remove user from old team " + team.name);
+//                 }
+//             }
+
+//             // Add user to selected team
+//             if (selectedTeamName) {
+//                 const selectedTeam = getTeamByName(selectedTeamName);
+//                 if (!selectedTeam) {
+//                     alert("Selected team not found");
+//                     return;
+//                 }
+//                 let updatedUsers = selectedTeam.users.map((u) => u.id);
+//                 if (!updatedUsers.includes(user.id)) {
+//                     updatedUsers.push(user.id);
+//                 }
+
+//                 const teamUpdateBody = {
+//                     users: updatedUsers,
+//                     ...(formData.role === "manager" ? { manager: user.id } : {}),
+//                 };
+
+//                 const teamRes = await fetch(
+//                     `https://team-focu-z-backend.vercel.app/auth/team/${selectedTeam.id}/update/`,
+//                     {
+//                         method: "PATCH",
+//                         headers: {
+//                             "Content-Type": "application/json",
+//                             Authorization: `Bearer ${sessionStorage.getItem("access")}`,
+//                         },
+//                         body: JSON.stringify(teamUpdateBody),
+//                     }
+//                 );
+//                 if (!teamRes.ok) throw new Error("Team update failed");
+//             }
+
+//             alert("✅ ইউজার সফলভাবে আপডেট হয়েছে");
+//             onSave(updatedUser);
+//         } catch (err) {
+//             console.error(err);
+//             alert("❌ আপডেট করতে সমস্যা হয়েছে");
+//         }
+//     };
+
+//     return (
+//         <div className="fixed inset-0 bg-black bg-opacity-30 flex justify-center items-center z-50">
+//             <div className="bg-white w-[90%] max-w-md p-6 rounded shadow">
+//                 <h2 className="text-xl font-bold mb-4">ইউজার সম্পাদনা</h2>
+
+//                 <input
+//                     className="w-full border p-2 mb-3"
+//                     name="Name"
+//                     value={formData.Name || ""}
+//                     onChange={handleChange}
+//                     placeholder="নাম"
+//                 />
+//                 <input
+//                     className="w-full border p-2 mb-3"
+//                     name="email"
+//                     value={formData.email || ""}
+//                     onChange={handleChange}
+//                     placeholder="ইমেইল"
+//                 />
+
+//                 <select
+//                     className="w-full border p-2 mb-3"
+//                     name="role"
+//                     value={formData.role || ""}
+//                     onChange={handleChange}
+//                 >
+//                     <option value="">--রোল বেছে নিন--</option>
+//                     <option value="admin">সুপার অ্যাডমিন</option>
+//                     <option value="manager">ম্যানেজার</option>
+//                     <option value="script writer">স্ক্রিপ্ট রাইটার</option>
+//                     <option value="video editor">ভিডিও এডিটর</option>
+//                     <option value="voice artist">ভয়েস আর্টিস্ট</option>
+//                 </select>
+
+//                 <select
+//                     className="w-full border p-2 mb-3"
+//                     name="team"
+//                     value={selectedTeamName || ""}
+//                     onChange={handleTeamChange}
+//                 >
+//                     <option value="">--টিম বেছে নিন--</option>
+//                     {teams.map((team) => (
+//                         <option key={team.id} value={team.name}>
+//                             {team.name}
+//                         </option>
+//                     ))}
+//                 </select>
+
+//                 <input
+//                     className="w-full border p-2 mb-3"
+//                     name="Phone"
+//                     value={formData.Phone || ""}
+//                     onChange={handleChange}
+//                     placeholder="ফোন"
+//                 />
+//                 <textarea
+//                     className="w-full border p-2 mb-3"
+//                     name="Address"
+//                     value={formData.Address || ""}
+//                     onChange={handleChange}
+//                     placeholder="ঠিকানা"
+//                 />
+//                 <div className="mb-3">
+//                     <label className="text-gray-700">
+//                         <input
+//                             type="checkbox"
+//                             checked={formData.is_active}
+//                             onChange={handleChange}
+//                             className="mr-2"
+//                         />
+//                         ইউজার একটিভেশন
+//                     </label>
+//                 </div>
+
+//                 <div className="flex justify-between">
+//                     <button
+//                         className="bg-blue-600 text-white px-4 py-2 rounded"
+//                         onClick={handleSubmit}
+//                     >
+//                         আপডেট করুন
+//                     </button>
+//                     <button
+//                         className="bg-gray-400 text-white px-4 py-2 rounded"
+//                         onClick={onClose}
+//                     >
+//                         বাতিল
+//                     </button>
+//                 </div>
+//             </div>
+//         </div>
+//     );
+// }
+
+
+
 function EditUserModal({ user, onClose, onSave, teams, allUsers }) {
     const [formData, setFormData] = useState({ ...user });
-    const [selectedTeamName, setSelectedTeamName] = useState(
-        user?.teams?.[0]?.name || ""
-    );
+    const [selectedTeamName, setSelectedTeamName] = useState(user?.teams?.[0]?.name || "");
+    const [isActive, setIsActive] = useState(user.is_active);  // Adding state for 'is_active'
 
     useEffect(() => {
         setFormData({ ...user });
         setSelectedTeamName(user?.teams?.[0]?.name || "");
+        setIsActive(user.is_active);  // Set the initial state for 'is_active'
     }, [user]);
 
     // Change handler for inputs
@@ -224,6 +448,11 @@ function EditUserModal({ user, onClose, onSave, teams, allUsers }) {
     // Change handler for team selection
     const handleTeamChange = (e) => {
         setSelectedTeamName(e.target.value);
+    };
+
+    // Change handler for 'is_active' checkbox
+    const handleStatusChange = (e) => {
+        setIsActive(e.target.checked);
     };
 
     // Helper to find team by name
@@ -244,6 +473,12 @@ function EditUserModal({ user, onClose, onSave, teams, allUsers }) {
                 }
             }
 
+            // Prepare updated formData with 'is_active' and team info
+            const updatedFormData = {
+                ...formData,
+                is_active: isActive,
+            };
+
             // Update user info first
             const res = await fetch(
                 `https://team-focu-z-backend.vercel.app/auth/alluser/${user.id}/`,
@@ -253,7 +488,7 @@ function EditUserModal({ user, onClose, onSave, teams, allUsers }) {
                         "Content-Type": "application/json",
                         Authorization: `Bearer ${sessionStorage.getItem("access")}`,
                     },
-                    body: JSON.stringify(formData),
+                    body: JSON.stringify(updatedFormData), // Including is_active in the PATCH request
                 }
             );
             if (!res.ok) throw new Error("User update failed");
@@ -388,6 +623,19 @@ function EditUserModal({ user, onClose, onSave, teams, allUsers }) {
                     onChange={handleChange}
                     placeholder="ঠিকানা"
                 />
+
+                {/* Status Change Checkbox */}
+                <div className="mb-3">
+                    <label className="text-gray-700">
+                        <input
+                            type="checkbox"
+                            checked={isActive}  // Controlled by component state
+                            onChange={handleStatusChange}  // Update 'is_active' state on change
+                            className="mr-2"
+                        />
+                        ইউজার একটিভেশন
+                    </label>
+                </div>
 
                 <div className="flex justify-between">
                     <button

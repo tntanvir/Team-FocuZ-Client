@@ -71,15 +71,41 @@ const FileCard = ({ file }) => {
 const AllFiels = () => {
     const [files, setFiles] = useState([]);
 
+    const [role, setRole] = useState("");
+
     useEffect(() => {
-        fetch("https://team-focu-z-backend.vercel.app/media/data/")
-            .then((res) => res.json())
-            .then((data) => setFiles(data.results))
-            .catch((err) => console.error("Fetch error:", err));
+        const fetchUserRole = async () => {
+            const access = sessionStorage.getItem("access");
+            const response = await fetch('https://team-focu-z-backend.vercel.app/auth/profile/', {
+                headers: {
+                    Authorization: `Bearer ${access}`,
+                },
+            });
+            const userData = await response.json();
+            setRole(userData.role); // Update the role state
+        };
+
+        fetchUserRole();
     }, []);
 
+    useEffect(() => {
+        if (role === 'admin') {
+
+            fetch("https://team-focu-z-backend.vercel.app/media/data/")
+                .then((res) => res.json())
+                .then((data) => setFiles(data.results))
+                .catch((err) => console.error("Fetch error:", err));
+        }
+        else {
+            fetch("https://team-focu-z-backend.vercel.app/media/admin/data/")
+                .then((res) => res.json())
+                .then((data) => setFiles(data))
+                .catch((err) => console.error("Fetch error:", err));
+        }
+    }, [role]);
+
     return (
-        <div className="p-6 grid grid-cols-3 justify-center gap-6">
+        <div className="p-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3   gap-6">
             {files.map((file) => (
                 <FileCard key={file.id} file={file} />
             ))}
