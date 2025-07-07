@@ -16,7 +16,7 @@ const Navber = () => {
 
 
         try {
-            const res = await fetch("http://127.0.0.1:8000/auth/profile/", {
+            const res = await fetch("https://team-focu-z-backend.vercel.app/auth/profile/", {
                 headers: {
                     "Authorization": `Bearer ${token}`,
                 },
@@ -47,7 +47,7 @@ const Navber = () => {
         }
 
         try {
-            const response = await fetch('http://127.0.0.1:8000/auth/logout/', {
+            const response = await fetch('https://team-focu-z-backend.vercel.app/auth/logout/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

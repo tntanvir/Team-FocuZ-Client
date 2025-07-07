@@ -23,7 +23,7 @@ export default function MainDeshboard() {
     const [dailyData, setDailyData] = useState([]);
 
     // useEffect(() => {
-    //     fetch('http://127.0.0.1:8000/media/report/')
+    //     fetch('https://team-focu-z-backend.vercel.app/media/report/')
     //         .then(response => {
     //             if (!response.ok) {
     //                 throw new Error('Network response was not ok');
@@ -45,7 +45,7 @@ export default function MainDeshboard() {
     const [monthlyData, setMonthlyData] = useState([]);
 
     useEffect(() => {
-        fetch('http://127.0.0.1:8000/media/report/')
+        fetch('https://team-focu-z-backend.vercel.app/media/report/')
             .then(response => {
                 if (!response.ok) throw new Error('Network response was not ok');
                 return response.json();
