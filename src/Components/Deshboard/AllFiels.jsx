@@ -52,13 +52,17 @@ const FileCard = ({ file }) => {
                 <a
                     href={file.file}
                     target="_blank"
+                    download={file.title}
                     rel="noopener noreferrer"
                     className="flex items-center gap-1 justify-center bg-blue-600 text-white px-4 py-2 rounded-md text-sm w-full"
                 >
                     <FiDownload /> ডাউনলোড
                 </a>
                 <button className="p-2 border rounded-md text-gray-600 hover:bg-gray-100">
-                    <FiEye />
+                    <a target="_blank" href={file.file}>
+
+                        <FiEye />
+                    </a>
                 </button>
                 <button className="p-2 border rounded-md text-gray-600 hover:bg-gray-100">
                     <FiMessageSquare />
@@ -91,13 +95,25 @@ const AllFiels = () => {
     useEffect(() => {
         if (role === 'admin') {
 
-            fetch("https://team-focu-z-backend.vercel.app/media/data/")
+            fetch("https://team-focu-z-backend.vercel.app/media/data/", {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${sessionStorage.getItem("access")}`,
+                }
+            })
                 .then((res) => res.json())
                 .then((data) => setFiles(data.results))
                 .catch((err) => console.error("Fetch error:", err));
         }
-        else {
-            fetch("https://team-focu-z-backend.vercel.app/media/admin/data/")
+        if (role !== 'admin') {
+            fetch("https://team-focu-z-backend.vercel.app/media/admin/data/", {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${sessionStorage.getItem("access")}`,
+                }
+            })
                 .then((res) => res.json())
                 .then((data) => setFiles(data))
                 .catch((err) => console.error("Fetch error:", err));
@@ -105,12 +121,14 @@ const AllFiels = () => {
     }, [role]);
 
     return (
-        <div className="p-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3   gap-6">
-            {files.map((file) => (
-                <FileCard key={file.id} file={file} />
-            ))}
-        </div>
-    );
+        <>
+            {role && <div className="p-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3   gap-6">
+                {files.map((file) => (
+                    <FileCard key={file.id} file={file} />
+                ))}
+            </div>}
+        </>
+    )
 };
 
 export default AllFiels;

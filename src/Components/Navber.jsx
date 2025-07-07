@@ -62,9 +62,14 @@ const Navber = () => {
                 console.log(data.message);
                 sessionStorage.removeItem('access');
                 sessionStorage.removeItem('refresh');
+                sessionStorage.removeItem('user');
                 navigate('/signin');
             } else {
                 console.error("Logout failed:", data.error);
+                sessionStorage.removeItem('access');
+                sessionStorage.removeItem('refresh');
+                sessionStorage.removeItem('user');
+                navigate('/signin');
             }
         } catch (error) {
             console.error("Logout error:", error.message);

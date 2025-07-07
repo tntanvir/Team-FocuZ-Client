@@ -353,6 +353,7 @@ export default function Signup() {
                                 <option value="video editor">ভিডিও এডিটর</option>
                                 <option value="voice artist">ভয়েস আর্টিস্ট</option>
                                 <option value="script writer">স্ক্রিপ্ট রাইটার</option>
+                                <option value="manager">ম্যানেজার</option>
                             </select>
                         </div>
 
