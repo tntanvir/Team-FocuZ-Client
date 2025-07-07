@@ -34,7 +34,7 @@ export default function Fileupload() {
 
             setTag("voice");
         } else if (role === "video editor") {
-            s
+
             setTag("video");
         }
     }, [role]);
