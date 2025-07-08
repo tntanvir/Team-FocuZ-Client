@@ -355,7 +355,8 @@ export default function Fileupload() {
     const [title, setTitle] = useState("");
     const [tag, setTag] = useState("");
     const [role, setRole] = useState(""); // Add state for role
-    const [teams, setTeams] = useState(null); // State to store the teams data
+    const [teams, setTeams] = useState(null);
+    // State to store the teams data
     const [selectedTeam, setSelectedTeam] = useState(""); // State to store selected team
 
     useEffect(() => {
@@ -368,7 +369,8 @@ export default function Fileupload() {
             });
             const userData = await response.json();
             setRole(userData.role);
-            console.log(userData) // Update the role state
+            // console.log(userData?.teams[0]?.name)
+            setSelectedTeam(userData?.teams[0]?.name)
         };
 
         fetchUserRole();

@@ -14,6 +14,7 @@ import React, { useEffect, useState } from "react";
 import Myteam from "./Components/Deshboard/Myteam";
 import ChangePassword from "./Components/Deshboard/ChangePassword";
 import SidebarContext from "./Utils/SidebarContext";
+import Profile from "./Components/Deshboard/Profile";
 
 
 
@@ -89,7 +90,8 @@ const App = () => {
             <Route path="myteam" element={<Myteam />} />
             <Route path="files" element={<AllFiels />} />
             <Route path="report" element={<Report />} />
-            <Route path="settings" element={<ChangePassword />} />
+            <Route path="change" element={<ChangePassword />} />
+            <Route path="settings" element={<Profile />} />
           </Route>
         </Routes>
       </SidebarContext>

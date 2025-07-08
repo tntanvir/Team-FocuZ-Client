@@ -71,7 +71,6 @@ export default function Sidebar() {
 
     useEffect(() => {
         const userStr = sessionStorage.getItem("user");
-        console.log("Raw user string from sessionStorage:", userStr);
 
         if (userStr) {
             try {
