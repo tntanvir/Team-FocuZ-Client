@@ -775,6 +775,7 @@ const AllFiles = () => {
             })
             .then((data) => {
                 setFiles(data.results);
+                console.log(data)
                 setNextPage(data.next);
                 setPreviousPage(data.previous);
                 setLoading(false); // Set loading to false after the data is fetched
@@ -800,47 +801,49 @@ const AllFiles = () => {
     return (
         <>
             {/* Team Filter */}
-            <div className="flex gap-4 mb-6">
-                <select
-                    onChange={(e) => setTeamFilter(e.target.value)}
-                    className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
-                >
-                    <option value="All Teams">All Teams</option>
-                    {teams.map((team) => (
-                        <option key={team.id} value={team.name}>
-                            {team.name}
-                        </option>
-                    ))}
-                </select>
-            </div>
+            {role == 'admin' && <>
+                <div className="flex gap-4 mb-6">
+                    <select
+                        onChange={(e) => setTeamFilter(e.target.value)}
+                        className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                    >
+                        <option value="All Teams">All Teams</option>
+                        {teams.map((team) => (
+                            <option key={team.id} value={team.name}>
+                                {team.name}
+                            </option>
+                        ))}
+                    </select>
+                </div>
 
-            {/* Category Filter */}
-            <div className="flex gap-4 mb-6">
-                <button
-                    onClick={() => setCategoryFilter("All")}
-                    className="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700"
-                >
-                    All Categories
-                </button>
-                <button
-                    onClick={() => setCategoryFilter("video")}
-                    className="px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700"
-                >
-                    Video
-                </button>
-                <button
-                    onClick={() => setCategoryFilter("voice")}
-                    className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
-                >
-                    Audio
-                </button>
-                <button
-                    onClick={() => setCategoryFilter("script")}
-                    className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
-                >
-                    Script
-                </button>
-            </div>
+                {/* Category Filter */}
+                <div className="flex gap-4 mb-6">
+                    <button
+                        onClick={() => setCategoryFilter("All")}
+                        className="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700"
+                    >
+                        All Categories
+                    </button>
+                    <button
+                        onClick={() => setCategoryFilter("video")}
+                        className="px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700"
+                    >
+                        Video
+                    </button>
+                    <button
+                        onClick={() => setCategoryFilter("voice")}
+                        className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                    >
+                        Audio
+                    </button>
+                    <button
+                        onClick={() => setCategoryFilter("script")}
+                        className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
+                    >
+                        Script
+                    </button>
+                </div>
+            </>}
 
             {/* Display Files */}
             {role && (
