@@ -3,6 +3,8 @@ import { use, useEffect, useState } from 'react';
 import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import { FaUsers, FaFileAlt, FaVideo, FaDownload } from 'react-icons/fa';
 import { LineChart, Line, CartesianGrid } from 'recharts';
+import AdminTeamReportTable from './AdminTeamReportTable';
+import ManagerDeshboard from './ManagerDeshboard';
 
 
 const getBanglaMonth = (monthKey) => {
@@ -50,7 +52,7 @@ export default function MainDeshboard() {
 
     const COLORS = ['#4285F4', '#00ACC1', '#FB8C00'];
 
-    const [userData, setUserData] = useState([]);
+    const [userData, setUserData] = useState(null);
 
 
     useEffect(() => {
@@ -124,6 +126,7 @@ export default function MainDeshboard() {
                         <StatCard title="ভিডিও ফাইল" value={totalVideos} change={`+${todayNewVideos} নতুন`} icon={<FaVideo />} color="text-purple-600" />
                         <StatCard title="মোট ডাউনলোড" value={totalFiles} change={`+${todayNewFiles} আজ`} icon={<FaDownload />} color="text-orange-600" />
                     </div>
+                    <AdminTeamReportTable />
 
                     {/* Charts */}
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -168,21 +171,44 @@ export default function MainDeshboard() {
                             </LineChart>
                         </ResponsiveContainer>
                     </div>
+
                 </div>
 
                 :
                 (<div>
-                    <div className='bg-purple-400 my-4 p-4 rounded-lg shadow text-white'>
-                        <h1> {(`${userData?.user?.role}`).toUpperCase()} Dashboard</h1>
-                        <p className="">User Name : <span className='font-semibold'>{userData?.user?.username}</span>!</p>
-                    </div>
+                    {userData ?
+                        <>
+                            {userData?.user?.role === 'manager' ?
+                                <ManagerDeshboard />
+                                : <>
+                                    <div className='bg-purple-400 my-4 p-4 rounded-lg shadow text-white'>
+                                        <h1> {(`${userData?.user?.role}`).toUpperCase()} Dashboard</h1>
+                                        <p className="">User Name : <span className='font-semibold'>{userData?.user?.username}</span>!</p>
+                                    </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-                        <StatCard title="Today's file" value={userData?.daily_report?.count} />
-                        <StatCard title="Weekly file" value={userData?.weekly_report?.count} color="text-green-600" />
-                        <StatCard title="Monthly file" value={userData?.monthly_report?.count} color="text-purple-600" />
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+                                        <StatCard title="Today's file" value={userData?.daily_report?.count} />
+                                        <StatCard title="Weekly file" value={userData?.weekly_report?.count} color="text-green-600" />
+                                        <StatCard title="Monthly file" value={userData?.monthly_report?.count} color="text-purple-600" />
 
-                    </div>
+                                    </div>
+                                </>
+                            }
+                        </>
+                        :
+                        <div className="flex-col gap-4 w-full flex items-center justify-center">
+                            <div
+                                className="w-20 h-20 border-4 border-transparent text-blue-400 text-4xl animate-spin flex items-center justify-center border-t-blue-400 rounded-full"
+                            >
+                                <div
+                                    className="w-16 h-16 border-4 border-transparent text-red-400 text-2xl animate-spin flex items-center justify-center border-t-red-400 rounded-full"
+                                ></div>
+                            </div>
+                        </div>
+
+
+
+                    }
                 </div>)
 
 
