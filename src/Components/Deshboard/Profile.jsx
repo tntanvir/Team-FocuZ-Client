@@ -16,7 +16,7 @@
 //     useEffect(() => {
 //         const fetchUserProfile = async () => {
 //             try {
-//                 const response = await fetch('https://team-focu-z-backend.vercel.app/auth/profile/', {
+//                 const response = await fetch('\https://team-focu-z-backend.vercel.app/auth/profile/', {
 //                     method: 'GET',
 //                     headers: {
 //                         Authorization: `Bearer ${sessionStorage.getItem('access')}`,
@@ -74,7 +74,7 @@
 //         setLoading(true);
 
 //         try {
-//             const response = await fetch('https://team-focu-z-backend.vercel.app/auth/profile/', {
+//             const response = await fetch('\https://team-focu-z-backend.vercel.app/auth/profile/', {
 //                 method: 'PATCH',
 //                 body: formData, // Send formData directly, without stringifying
 //                 headers: {
@@ -196,7 +196,7 @@ const Profile = () => {
     useEffect(() => {
         const fetchUserProfile = async () => {
             try {
-                const response = await fetch('https://team-focu-z-backend.vercel.app/auth/profile/', {
+                const response = await fetch('\https://team-focu-z-backend.vercel.app/auth/profile/', {
                     method: 'GET',
                     headers: {
                         Authorization: `Bearer ${sessionStorage.getItem('access')}`,
@@ -274,7 +274,7 @@ const Profile = () => {
         setLoading(true);
 
         try {
-            const response = await fetch('https://team-focu-z-backend.vercel.app/auth/profile/', {
+            const response = await fetch('\https://team-focu-z-backend.vercel.app/auth/profile/', {
                 method: 'PATCH',
                 body: formData,
                 headers: {

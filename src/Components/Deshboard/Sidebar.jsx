@@ -42,7 +42,7 @@ export default function Sidebar() {
         }
 
         try {
-            const res = await fetch("https://team-focu-z-backend.vercel.app/auth/refresh/", {
+            const res = await fetch("\https://team-focu-z-backend.vercel.app/auth/refresh/", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

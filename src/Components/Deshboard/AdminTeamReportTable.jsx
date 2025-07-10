@@ -4,7 +4,7 @@ const AdminTeamReportTable = () => {
     const [reportData, setReportData] = useState([]);
 
     useEffect(() => {
-        fetch("https://team-focu-z-backend.vercel.app/report/admin/report/", {
+        fetch("\https://team-focu-z-backend.vercel.app/report/admin/report/", {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

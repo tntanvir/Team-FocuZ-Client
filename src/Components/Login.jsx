@@ -14,7 +14,7 @@ export default function Login() {
         // console.log(username, password);
         // form.reset();
 
-        fetch('https://team-focu-z-backend.vercel.app/auth/login/', {
+        fetch('\https://team-focu-z-backend.vercel.app/auth/login/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

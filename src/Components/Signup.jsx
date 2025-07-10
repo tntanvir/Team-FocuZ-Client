@@ -23,7 +23,7 @@
 //         };
 
 //         try {
-//             const res = await fetch('https://team-focu-z-backend.vercel.app/auth/register/', {
+//             const res = await fetch('\https://team-focu-z-backend.vercel.app/auth/register/', {
 //                 method: 'POST',
 //                 headers: {
 //                     'Content-Type': 'application/json',
@@ -197,7 +197,7 @@ export default function Signup() {
     //     };
 
     //     try {
-    //         const res = await fetch('https://team-focu-z-backend.vercel.app/auth/register/', {
+    //         const res = await fetch('\https://team-focu-z-backend.vercel.app/auth/register/', {
     //             method: 'POST',
     //             headers: {
     //                 'Content-Type': 'application/json',
@@ -265,7 +265,7 @@ export default function Signup() {
         };
 
         try {
-            const res = await fetch('https://team-focu-z-backend.vercel.app/auth/register/', {
+            const res = await fetch('\https://team-focu-z-backend.vercel.app/auth/register/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

@@ -12,7 +12,7 @@
 //     useEffect(() => {
 //         const fetchUserRole = async () => {
 //             const access = sessionStorage.getItem("access");
-//             const response = await fetch('https://team-focu-z-backend.vercel.app/auth/profile/', {
+//             const response = await fetch('\https://team-focu-z-backend.vercel.app/auth/profile/', {
 //                 headers: {
 //                     Authorization: `Bearer ${access}`,
 //                 },
@@ -128,7 +128,7 @@
 //     //             };
 
 //     //             // Sending the uploaded file URL to your backend
-//     //             const backendRes = await fetch("https://team-focu-z-backend.vercel.app/media/data/", {
+//     //             const backendRes = await fetch("\https://team-focu-z-backend.vercel.app/media/data/", {
 //     //                 method: "POST",
 //     //                 headers: {
 //     //                     "Content-Type": "application/json",
@@ -198,7 +198,7 @@
 //                 };
 
 //                 // Send the uploaded file URL to your backend
-//                 const backendRes = await fetch("https://team-focu-z-backend.vercel.app/media/data/", {
+//                 const backendRes = await fetch("\https://team-focu-z-backend.vercel.app/media/data/", {
 //                     method: "POST",
 //                     headers: {
 //                         "Content-Type": "application/json",
@@ -251,7 +251,7 @@
 //     const [teams, setTeams] = useState(null);
 
 //     useEffect(() => {
-//         fetch('https://team-focu-z-backend.vercel.app/team/teams/')
+//         fetch('\https://team-focu-z-backend.vercel.app/team/teams/')
 //             .then((res) => res.json())
 //             .then((data) => {
 //                 setTeams(data);
@@ -362,7 +362,7 @@ export default function Fileupload() {
     useEffect(() => {
         const fetchUserRole = async () => {
             const access = sessionStorage.getItem("access");
-            const response = await fetch('https://team-focu-z-backend.vercel.app/auth/profile/', {
+            const response = await fetch('\https://team-focu-z-backend.vercel.app/auth/profile/', {
                 headers: {
                     Authorization: `Bearer ${access}`,
                 },
@@ -377,7 +377,7 @@ export default function Fileupload() {
     }, []);
 
     useEffect(() => {
-        fetch('https://team-focu-z-backend.vercel.app/team/teams/')
+        fetch('\https://team-focu-z-backend.vercel.app/team/teams/')
             .then((res) => res.json())
             .then((data) => {
                 setTeams(data);
@@ -483,7 +483,7 @@ export default function Fileupload() {
                     team: selectedTeam, // Send selected team along with other data
                 };
 
-                const backendRes = await fetch("https://team-focu-z-backend.vercel.app/media/data/", {
+                const backendRes = await fetch("\https://team-focu-z-backend.vercel.app/media/data/", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",

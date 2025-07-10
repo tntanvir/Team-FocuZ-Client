@@ -9,7 +9,7 @@ const TeamManagement = () => {
     const fetchTeams = async () => {
         try {
             const accessToken = sessionStorage.getItem("access");
-            const res = await fetch("https://team-focu-z-backend.vercel.app/team/teams/", {
+            const res = await fetch("\https://team-focu-z-backend.vercel.app/team/teams/", {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
@@ -35,7 +35,7 @@ const TeamManagement = () => {
     }
     const DeleteTeam = (id) => {
         const accessToken = sessionStorage.getItem("access");
-        fetch(`https://team-focu-z-backend.vercel.app/team/teams/${id}/`, {
+        fetch(`\https://team-focu-z-backend.vercel.app/team/teams/${id}/`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',

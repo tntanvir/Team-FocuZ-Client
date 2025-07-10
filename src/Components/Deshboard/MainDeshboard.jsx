@@ -56,7 +56,7 @@ export default function MainDeshboard() {
 
 
     useEffect(() => {
-        fetch('https://team-focu-z-backend.vercel.app/media/user/report/', {
+        fetch('\https://team-focu-z-backend.vercel.app/media/user/report/', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -73,7 +73,7 @@ export default function MainDeshboard() {
 
     // Fetch Data
     useEffect(() => {
-        fetch('https://team-focu-z-backend.vercel.app/media/report/')
+        fetch('\https://team-focu-z-backend.vercel.app/media/report/')
             .then(response => {
                 if (!response.ok) throw new Error('Network response was not ok');
                 return response.json();
@@ -186,10 +186,11 @@ export default function MainDeshboard() {
                                         <p className="">User Name : <span className='font-semibold'>{userData?.user?.username}</span>!</p>
                                     </div>
 
-                                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
                                         <StatCard title="Today's file" value={userData?.daily_report?.count} />
                                         <StatCard title="Weekly file" value={userData?.weekly_report?.count} color="text-green-600" />
                                         <StatCard title="Monthly file" value={userData?.monthly_report?.count} color="text-purple-600" />
+                                        <StatCard title="Approved" value={userData?.total_approved} color="text-purple-600" />
 
                                     </div>
                                 </>

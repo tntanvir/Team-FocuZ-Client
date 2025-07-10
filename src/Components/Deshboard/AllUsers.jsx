@@ -10,7 +10,7 @@ export default function AllUsers() {
 
     // Fetch all users
     useEffect(() => {
-        fetch("https://team-focu-z-backend.vercel.app/auth/alluser/", {
+        fetch("\https://team-focu-z-backend.vercel.app/auth/alluser/", {
             headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${sessionStorage.getItem("access")}`,
@@ -23,7 +23,7 @@ export default function AllUsers() {
 
     // Fetch all teams (needed for validation in editing)
     useEffect(() => {
-        fetch("https://team-focu-z-backend.vercel.app/team/teams/", {
+        fetch("\https://team-focu-z-backend.vercel.app/team/teams/", {
             headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${sessionStorage.getItem("access")}`,
@@ -38,7 +38,7 @@ export default function AllUsers() {
     const handleDeleteClick = (user) => {
         if (!window.confirm(`Are you sure you want to delete ${user.Name || user.username}?`)) return;
 
-        fetch(`https://team-focu-z-backend.vercel.app/auth/alluser/${user.id}/`, {
+        fetch(`\https://team-focu-z-backend.vercel.app/auth/alluser/${user.id}/`, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
@@ -253,7 +253,7 @@ export default function AllUsers() {
 
 //             // Update user info first
 //             const res = await fetch(
-//                 `https://team-focu-z-backend.vercel.app/auth/alluser/${user.id}/`,
+//                 `\https://team-focu-z-backend.vercel.app/auth/alluser/${user.id}/`,
 //                 {
 //                     method: "PATCH",
 //                     headers: {
@@ -279,7 +279,7 @@ export default function AllUsers() {
 //                         ...(team.manager === user.id ? { manager: null } : {}),
 //                     };
 //                     const res = await fetch(
-//                         `https://team-focu-z-backend.vercel.app/auth/team/${team.id}/update/`,
+//                         `\https://team-focu-z-backend.vercel.app/auth/team/${team.id}/update/`,
 //                         {
 //                             method: "PATCH",
 //                             headers: {
@@ -312,7 +312,7 @@ export default function AllUsers() {
 //                 };
 
 //                 const teamRes = await fetch(
-//                     `https://team-focu-z-backend.vercel.app/auth/team/${selectedTeam.id}/update/`,
+//                     `\https://team-focu-z-backend.vercel.app/auth/team/${selectedTeam.id}/update/`,
 //                     {
 //                         method: "PATCH",
 //                         headers: {
@@ -481,7 +481,7 @@ function EditUserModal({ user, onClose, onSave, teams, allUsers }) {
 
             // Update user info first
             const res = await fetch(
-                `https://team-focu-z-backend.vercel.app/auth/alluser/${user.id}/`,
+                `\https://team-focu-z-backend.vercel.app/auth/alluser/${user.id}/`,
                 {
                     method: "PATCH",
                     headers: {
@@ -507,7 +507,7 @@ function EditUserModal({ user, onClose, onSave, teams, allUsers }) {
                         ...(team.manager === user.id ? { manager: null } : {}),
                     };
                     const res = await fetch(
-                        `https://team-focu-z-backend.vercel.app/auth/team/${team.id}/update/`,
+                        `\https://team-focu-z-backend.vercel.app/auth/team/${team.id}/update/`,
                         {
                             method: "PATCH",
                             headers: {
@@ -540,7 +540,7 @@ function EditUserModal({ user, onClose, onSave, teams, allUsers }) {
                 };
 
                 const teamRes = await fetch(
-                    `https://team-focu-z-backend.vercel.app/auth/team/${selectedTeam.id}/update/`,
+                    `\https://team-focu-z-backend.vercel.app/auth/team/${selectedTeam.id}/update/`,
                     {
                         method: "PATCH",
                         headers: {
