@@ -5,7 +5,7 @@ const ManagerDeshboard = () => {
     const [report, setReport] = useState([]);
 
     useEffect(() => {
-        fetch("https://team-focu-z-backend.vercel.app/report/admin/report/", {
+        fetch("https://team-focu-z-backend.vercel.app/report/manager/report/", {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -16,6 +16,7 @@ const ManagerDeshboard = () => {
             .then((data) => setReport(data))
             .catch((err) => console.error("Error fetching report:", err));
     }, []);
+
 
     const getTeamName = (id) => `টিম ${String.fromCharCode(64 + parseInt(id))}`;
 

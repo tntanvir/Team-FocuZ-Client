@@ -4,9 +4,18 @@ const AdminTeamReportTable = () => {
     const [reportData, setReportData] = useState([]);
 
     useEffect(() => {
-        fetch("https://team-focu-z-backend.vercel.app/report/admin/report/")
+        fetch("https://team-focu-z-backend.vercel.app/report/admin/report/", {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${sessionStorage.getItem("access")}`,
+            }
+        })
             .then((res) => res.json())
-            .then((data) => setReportData(data))
+            .then((data) => {
+                setReportData(data)
+
+            })
             .catch((err) => console.error("Failed to fetch team report:", err));
     }, []);
 
