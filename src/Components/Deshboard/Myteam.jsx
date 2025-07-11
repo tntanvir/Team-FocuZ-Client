@@ -30,7 +30,7 @@ const Myteam = () => {
     useEffect(() => {
         if (role) {
 
-            fetch(`\https://team-focu-z-backend.vercel.app/report/report/${role}/`)
+            fetch(`https://team-focu-z-backend.vercel.app/report/report/${role}/`)
                 .then((res) => res.json())
                 .then((data) => {
                     setReport(data);

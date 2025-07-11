@@ -5,7 +5,7 @@ const ManagerDeshboard = () => {
     const [report, setReport] = useState([]);
 
     useEffect(() => {
-        fetch("\https://team-focu-z-backend.vercel.app/report/manager/report/", {
+        fetch("https://team-focu-z-backend.vercel.app/report/manager/report/", {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

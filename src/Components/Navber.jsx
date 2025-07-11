@@ -16,7 +16,7 @@ const Navber = () => {
 
 
         try {
-            const res = await fetch("\https://team-focu-z-backend.vercel.app/auth/profile/", {
+            const res = await fetch("https://team-focu-z-backend.vercel.app/auth/profile/", {
                 headers: {
                     "Authorization": `Bearer ${token}`,
                 },
@@ -47,7 +47,7 @@ const Navber = () => {
         }
 
         try {
-            const response = await fetch('\https://team-focu-z-backend.vercel.app/auth/logout/', {
+            const response = await fetch('https://team-focu-z-backend.vercel.app/auth/logout/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -72,7 +72,11 @@ const Navber = () => {
                 navigate('/signin');
             }
         } catch (error) {
-            console.error("Logout error:", error.message);
+            sessionStorage.removeItem('access');
+            sessionStorage.removeItem('refresh');
+            sessionStorage.removeItem('user');
+            navigate('/signin');
+            // console.error("Logout error:", error.message);
         }
     };
 

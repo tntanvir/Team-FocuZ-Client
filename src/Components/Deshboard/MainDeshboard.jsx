@@ -56,7 +56,7 @@ export default function MainDeshboard() {
 
 
     useEffect(() => {
-        fetch('\https://team-focu-z-backend.vercel.app/media/user/report/', {
+        fetch('https://team-focu-z-backend.vercel.app/media/user/report/', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -73,7 +73,7 @@ export default function MainDeshboard() {
 
     // Fetch Data
     useEffect(() => {
-        fetch('\https://team-focu-z-backend.vercel.app/media/report/')
+        fetch('https://team-focu-z-backend.vercel.app/media/report/')
             .then(response => {
                 if (!response.ok) throw new Error('Network response was not ok');
                 return response.json();

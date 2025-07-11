@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { FaEnvelope, FaLock, FaEye, FaEyeSlash, FaUser } from 'react-icons/fa'
 import { Link, useNavigate } from "react-router-dom";
+import { toast, Bounce } from 'react-toastify';
 
 export default function Login() {
     const [showPassword, setShowPassword] = useState(false)
@@ -14,7 +15,7 @@ export default function Login() {
         // console.log(username, password);
         // form.reset();
 
-        fetch('\https://team-focu-z-backend.vercel.app/auth/login/', {
+        fetch('https://team-focu-z-backend.vercel.app/auth/login/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -26,11 +27,49 @@ export default function Login() {
                 sessionStorage.setItem('access', data.access);
                 sessionStorage.setItem('refresh', data.refresh);
                 sessionStorage.setItem('user', JSON.stringify(data.user));
+
                 if (data.access) {
+                    toast.success('Login Successfull', {
+                        position: "top-right",
+                        autoClose: 3000,
+                        hideProgressBar: false,
+                        closeOnClick: false,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                        transition: Bounce,
+                    });
                     navigate('/dashboard/main');
+                }
+                else {
+                    toast.error('Login Failed', {
+                        position: "top-right",
+                        autoClose: 3000,
+                        hideProgressBar: false,
+                        closeOnClick: false,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                        transition: Bounce,
+                    });
                 }
 
             })
+            .catch(err => {
+                toast.error('Login Failed', {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: false,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                    transition: Bounce,
+                });
+            });
     }
 
     return (

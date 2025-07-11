@@ -23,7 +23,7 @@
 //         };
 
 //         try {
-//             const res = await fetch('\https://team-focu-z-backend.vercel.app/auth/register/', {
+//             const res = await fetch('https://team-focu-z-backend.vercel.app/auth/register/', {
 //                 method: 'POST',
 //                 headers: {
 //                     'Content-Type': 'application/json',
@@ -169,7 +169,7 @@ export default function Signup() {
     //             formData.append("file", profilePicture);
     //             formData.append("upload_preset", "your_upload_preset"); // Add your Cloudinary upload preset here
 
-    //             const res = await fetch(`https://api.cloudinary.com/v1_1/do0pqsf4a/upload`, {
+    //             const res = await fetch(`https://api.cloudinary.com/v1_1/dcebkf2od/upload`, {
     //                 method: "POST",
     //                 body: formData,
     //             });
@@ -197,7 +197,7 @@ export default function Signup() {
     //     };
 
     //     try {
-    //         const res = await fetch('\https://team-focu-z-backend.vercel.app/auth/register/', {
+    //         const res = await fetch('https://team-focu-z-backend.vercel.app/auth/register/', {
     //             method: 'POST',
     //             headers: {
     //                 'Content-Type': 'application/json',
@@ -229,10 +229,10 @@ export default function Signup() {
             try {
                 const formData = new FormData();
                 formData.append("file", profilePicture);
-                formData.append("upload_preset", "TeamFocuZ"); // Your Cloudinary upload preset
-                formData.append("cloud_name", "do0pqsf4a"); // Your Cloudinary cloud name
+                formData.append("upload_preset", "DreamFocuZ"); // Your Cloudinary upload preset
+                formData.append("cloud_name", "dcebkf2od"); // Your Cloudinary cloud name
 
-                const res = await fetch(`https://api.cloudinary.com/v1_1/do0pqsf4a/image/upload`, {
+                const res = await fetch(`https://api.cloudinary.com/v1_1/dcebkf2od/image/upload`, {
                     method: "POST",
                     body: formData, // Send the file as FormData
                 });
@@ -265,7 +265,7 @@ export default function Signup() {
         };
 
         try {
-            const res = await fetch('\https://team-focu-z-backend.vercel.app/auth/register/', {
+            const res = await fetch('https://team-focu-z-backend.vercel.app/auth/register/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

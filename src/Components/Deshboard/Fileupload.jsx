@@ -12,7 +12,7 @@
 //     useEffect(() => {
 //         const fetchUserRole = async () => {
 //             const access = sessionStorage.getItem("access");
-//             const response = await fetch('\https://team-focu-z-backend.vercel.app/auth/profile/', {
+//             const response = await fetch('https://team-focu-z-backend.vercel.app/auth/profile/', {
 //                 headers: {
 //                     Authorization: `Bearer ${access}`,
 //                 },
@@ -102,12 +102,12 @@
 
 //     //     const formData = new FormData();
 //     //     formData.append("file", file);
-//     //     formData.append("upload_preset", "TeamFocuZ"); // Ensure this matches with your Cloudinary preset
-//     //     formData.append("cloud_name", "do0pqsf4a"); // Ensure this is your correct Cloudinary cloud name
+//     //     formData.append("upload_preset", "DreamFocuZ"); // Ensure this matches with your Cloudinary preset
+//     //     formData.append("cloud_name", "dcebkf2od"); // Ensure this is your correct Cloudinary cloud name
 
 //     //     try {
 //     //         // Upload file to Cloudinary
-//     //         const res = await fetch("https://api.cloudinary.com/v1_1/do0pqsf4a/video/upload", {
+//     //         const res = await fetch("https://api.cloudinary.com/v1_1/dcebkf2od/video/upload", {
 //     //             method: "POST",
 //     //             body: formData,
 //     //         });
@@ -128,7 +128,7 @@
 //     //             };
 
 //     //             // Sending the uploaded file URL to your backend
-//     //             const backendRes = await fetch("\https://team-focu-z-backend.vercel.app/media/data/", {
+//     //             const backendRes = await fetch("https://team-focu-z-backend.vercel.app/media/data/", {
 //     //                 method: "POST",
 //     //                 headers: {
 //     //                     "Content-Type": "application/json",
@@ -165,15 +165,15 @@
 //         // Prepare FormData for Cloudinary
 //         const formData = new FormData();
 //         formData.append("file", file);
-//         formData.append("upload_preset", "TeamFocuZ"); // Ensure this matches with your Cloudinary preset
-//         formData.append("cloud_name", "do0pqsf4a"); // Ensure this is your correct Cloudinary cloud name
+//         formData.append("upload_preset", "DreamFocuZ"); // Ensure this matches with your Cloudinary preset
+//         formData.append("cloud_name", "dcebkf2od"); // Ensure this is your correct Cloudinary cloud name
 
 //         try {
-//             let uploadUrl = "https://api.cloudinary.com/v1_1/do0pqsf4a/upload";  // General upload URL
+//             let uploadUrl = "https://api.cloudinary.com/v1_1/dcebkf2od/upload";  // General upload URL
 
 //             // If file is video, use video upload endpoint
 //             if (file.name.endsWith(".mp4") || file.name.endsWith(".mov")) {
-//                 uploadUrl = "https://api.cloudinary.com/v1_1/do0pqsf4a/video/upload";
+//                 uploadUrl = "https://api.cloudinary.com/v1_1/dcebkf2od/video/upload";
 //             }
 
 //             // Upload the file
@@ -198,7 +198,7 @@
 //                 };
 
 //                 // Send the uploaded file URL to your backend
-//                 const backendRes = await fetch("\https://team-focu-z-backend.vercel.app/media/data/", {
+//                 const backendRes = await fetch("https://team-focu-z-backend.vercel.app/media/data/", {
 //                     method: "POST",
 //                     headers: {
 //                         "Content-Type": "application/json",
@@ -251,7 +251,7 @@
 //     const [teams, setTeams] = useState(null);
 
 //     useEffect(() => {
-//         fetch('\https://team-focu-z-backend.vercel.app/team/teams/')
+//         fetch('https://team-focu-z-backend.vercel.app/team/teams/')
 //             .then((res) => res.json())
 //             .then((data) => {
 //                 setTeams(data);
@@ -349,6 +349,7 @@
 
 import { useEffect, useState } from "react";
 import { FaCloudUploadAlt } from "react-icons/fa";
+import { Bounce, toast } from "react-toastify";
 
 export default function Fileupload() {
     const [file, setFile] = useState(null);
@@ -362,7 +363,7 @@ export default function Fileupload() {
     useEffect(() => {
         const fetchUserRole = async () => {
             const access = sessionStorage.getItem("access");
-            const response = await fetch('\https://team-focu-z-backend.vercel.app/auth/profile/', {
+            const response = await fetch('https://team-focu-z-backend.vercel.app/auth/profile/', {
                 headers: {
                     Authorization: `Bearer ${access}`,
                 },
@@ -377,7 +378,7 @@ export default function Fileupload() {
     }, []);
 
     useEffect(() => {
-        fetch('\https://team-focu-z-backend.vercel.app/team/teams/')
+        fetch('https://team-focu-z-backend.vercel.app/team/teams/')
             .then((res) => res.json())
             .then((data) => {
                 setTeams(data);
@@ -400,7 +401,18 @@ export default function Fileupload() {
 
         // Check file type based on role
         if (role === "script writer" && !selectedFile.name.endsWith('.txt')) {
-            alert("Script Writers can only upload text files!");
+            // alert("Script Writers can only upload text files!");
+            toast.warning('Script Writers can only upload text files!', {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                transition: Bounce,
+            });
             return;
         }
 
@@ -411,12 +423,34 @@ export default function Fileupload() {
                 selectedFile.name.endsWith('.aac')
             )
         ) {
-            alert("Voice Artists can only upload audio files!");
+            // alert("Voice Artists can only upload audio files!");
+            toast.warning('Voice Artists can only upload audio files!', {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                transition: Bounce,
+            });
             return;
         }
 
         if (role === "video editor" && !selectedFile.name.endsWith('.mp4')) {
-            alert("Video Editors can only upload mp4 files!");
+            // alert("Video Editors can only upload mp4 files!");
+            toast.warning('Video Editors can only upload mp4 files!', {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                transition: Bounce,
+            });
             return;
         }
 
@@ -429,17 +463,49 @@ export default function Fileupload() {
 
         // Check file type based on role
         if (role === "script writer" && !droppedFile.name.endsWith('.txt')) {
-            alert("Script Writers can only upload text files!");
+            toast.warning('Script Writers can only upload text files!', {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                transition: Bounce,
+            });
             return;
         }
 
         if (role === "voice artist" && !droppedFile.name.endsWith(('.mp3', '.wav', '.aac'))) {
-            alert("Voice Artists can only upload audio files!");
+            // alert("");
+            toast.warning('Voice Artists can only upload audio files!', {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                transition: Bounce,
+            });
             return;
         }
 
         if (role === "video editor" && !droppedFile.name.endsWith('.mp4')) {
-            alert("Video Editors can only upload mp4 files!");
+            // alert("Video Editors can only upload mp4 files!");
+            toast.warning('Video Editors can only upload mp4 files!', {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                transition: Bounce,
+            });
             return;
         }
 
@@ -454,14 +520,14 @@ export default function Fileupload() {
 
         const formData = new FormData();
         formData.append("file", file);
-        formData.append("upload_preset", "TeamFocuZ"); // Ensure this matches with your Cloudinary preset
-        formData.append("cloud_name", "do0pqsf4a"); // Ensure this is your correct Cloudinary cloud name
+        formData.append("upload_preset", "DreamFocuZ"); // Ensure this matches with your Cloudinary preset
+        formData.append("cloud_name", "dcebkf2od"); // Ensure this is your correct Cloudinary cloud name
 
         try {
-            let uploadUrl = "https://api.cloudinary.com/v1_1/do0pqsf4a/upload";  // General upload URL
+            let uploadUrl = "https://api.cloudinary.com/v1_1/dcebkf2od/upload";  // General upload URL
 
             if (file.name.endsWith(".mp4") || file.name.endsWith(".mov")) {
-                uploadUrl = "https://api.cloudinary.com/v1_1/do0pqsf4a/video/upload";
+                uploadUrl = "https://api.cloudinary.com/v1_1/dcebkf2od/video/upload";
             }
 
             const res = await fetch(uploadUrl, {
@@ -472,8 +538,8 @@ export default function Fileupload() {
             const data = await res.json();
 
             if (res.ok && data.secure_url) {
-                alert("✅ আপলোড সফল হয়েছে!");
-                console.log("Uploaded URL:", data.secure_url);
+                // alert("✅ আপলোড সফল হয়েছে!");
+                // console.log("Uploaded URL:", data.secure_url);
 
                 const access = sessionStorage.getItem("access");
                 const mediaPayload = {
@@ -483,7 +549,7 @@ export default function Fileupload() {
                     team: selectedTeam, // Send selected team along with other data
                 };
 
-                const backendRes = await fetch("\https://team-focu-z-backend.vercel.app/media/data/", {
+                const backendRes = await fetch("https://team-focu-z-backend.vercel.app/media/data/", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -493,19 +559,71 @@ export default function Fileupload() {
                 });
 
                 if (backendRes.ok) {
-                    alert("✅ ডাটাবেজে সংরক্ষণ সফল হয়েছে");
+                    // alert("✅ ডাটাবেজে সংরক্ষণ সফল হয়েছে");
+
+                    setFile(null); // Clear the file input
+                    setTitle(""); // Clear the title input
+                    setTag(""); // Clear the tag input
+                    setSelectedTeam(""); // Clear the selected team
+
+
+                    toast.success('✅ ডাটাবেজে সংরক্ষণ সফল হয়েছে', {
+                        position: "top-right",
+                        autoClose: 3000,
+                        hideProgressBar: false,
+                        closeOnClick: false,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                        transition: Bounce,
+                    });
+                    formData.reset(); // Reset form data after successful upload
                 } else {
                     const errorResult = await backendRes.json();
-                    console.error("Backend error:", errorResult);
-                    alert("❌ ব্যাকেন্ডে আপলোড ব্যর্থ হয়েছে");
+                    // console.error("Backend error:", errorResult);
+                    // alert("❌ ব্যাকেন্ডে আপলোড ব্যর্থ হয়েছে");
+                    toast.error('❌ ব্যাকেন্ডে আপলোড ব্যর্থ হয়েছে', {
+                        position: "top-right",
+                        autoClose: 3000,
+                        hideProgressBar: false,
+                        closeOnClick: false,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                        transition: Bounce,
+                    });
                 }
             } else {
                 console.error("Cloudinary upload failed:", data);
-                alert("❌ ক্লাউডিনারিতে আপলোড ব্যর্থ হয়েছে");
+                // alert("❌ ক্লাউডিনারিতে আপলোড ব্যর্থ হয়েছে");
+                toast.error('❌ ক্লাউডিনারিতে আপলোড ব্যর্থ হয়েছে', {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: false,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                    transition: Bounce,
+                });
             }
         } catch (error) {
-            console.error("Upload error:", error);
-            alert("❌ Cloudinary আপলোডে সমস্যা");
+            // console.error("Upload error:", error);
+            // alert("❌ Cloudinary আপলোডে সমস্যা");
+            toast.error('❌ ক্লাউডিনারিতে আপলোড ব্যর্থ হয়েছে', {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                transition: Bounce,
+            });
         }
     };
 

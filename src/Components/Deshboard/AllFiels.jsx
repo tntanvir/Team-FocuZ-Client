@@ -1,6 +1,9 @@
 
 import React, { useEffect, useState } from "react";
 import { FiDownload, FiUser, FiCalendar, FiEye, FiMessageSquare, FiChevronRight, FiChevronLeft, FiLoader } from "react-icons/fi";
+import { Bounce, toast } from "react-toastify";
+
+
 
 
 
@@ -24,7 +27,7 @@ const FileCard = ({ file }) => {
 
 
 
-        fetch(`\https://team-focu-z-backend.vercel.app/media/data/${id}/`, {
+        fetch(`https://team-focu-z-backend.vercel.app/media/data/${id}/`, {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json",
@@ -35,9 +38,31 @@ const FileCard = ({ file }) => {
             .then((response) => response.json())
             .then((data) => {
                 console.log(data); // Handle the updated response if needed
+                toast.success('✅ ডাটাবেজে সংরক্ষণ সফল হয়েছে', {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: false,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                    transition: Bounce,
+                });
             })
             .catch((err) => {
-                console.error("Error updating approval status:", err);
+                // console.error("Error updating approval status:", err);
+                toast.error('❌ ডাটাবেজে সংরক্ষণ ব্যর্থ হয়েছে', {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: false,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                    transition: Bounce,
+                });
             });
     };
 
@@ -48,7 +73,7 @@ const FileCard = ({ file }) => {
         const newDownloadCount = currentDownloadCount + 1;
 
         // First, make the PATCH request to update the download count
-        fetch(`\https://team-focu-z-backend.vercel.app/media/data/${id}/`, {
+        fetch(`https://team-focu-z-backend.vercel.app/media/data/${id}/`, {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json",
@@ -155,7 +180,7 @@ const AllFiles = () => {
 
     // Fetch available teams
     useEffect(() => {
-        fetch('\https://team-focu-z-backend.vercel.app/team/teams/')
+        fetch('https://team-focu-z-backend.vercel.app/team/teams/')
             .then(res => res.json())
             .then(data => setTeams(data))  // Store teams data
             .catch(err => console.error("Error fetching teams:", err));
@@ -164,7 +189,7 @@ const AllFiles = () => {
     useEffect(() => {
         const fetchUserRole = async () => {
             const access = sessionStorage.getItem("access");
-            const response = await fetch('\https://team-focu-z-backend.vercel.app/auth/profile/', {
+            const response = await fetch('https://team-focu-z-backend.vercel.app/auth/profile/', {
                 headers: {
                     Authorization: `Bearer ${access}`,
                 },
@@ -178,7 +203,7 @@ const AllFiles = () => {
 
     const fetchFiles = (url) => {
         setLoading(true); // Set loading to true when fetching data
-        fetch(url || "\https://team-focu-z-backend.vercel.app/media/data/", {
+        fetch(url || "https://team-focu-z-backend.vercel.app/media/data/", {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -206,7 +231,7 @@ const AllFiles = () => {
     };
 
     useEffect(() => {
-        let url = "\https://team-focu-z-backend.vercel.app/media/data/?";
+        let url = "https://team-focu-z-backend.vercel.app/media/data/?";
         if (teamFilter !== "All Teams") {
             url += `team=${teamFilter}&`;
         }
@@ -315,3 +340,4 @@ const AllFiles = () => {
 };
 
 export default AllFiles;
+

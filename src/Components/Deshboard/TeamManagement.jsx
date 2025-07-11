@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import AddTeamModal from "../AddTeamModal";
 import { FaCalendarAlt, FaEdit, FaPlus, FaTrash, FaUser, FaUsers } from "react-icons/fa";
+import { Bounce, toast } from "react-toastify";
 
 const TeamManagement = () => {
     const [teams, setTeams] = useState([]);
@@ -9,13 +10,14 @@ const TeamManagement = () => {
     const fetchTeams = async () => {
         try {
             const accessToken = sessionStorage.getItem("access");
-            const res = await fetch("\https://team-focu-z-backend.vercel.app/team/teams/", {
+            const res = await fetch("https://team-focu-z-backend.vercel.app/team/teams/", {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
             });
             const data = await res.json();
             setTeams(data);
+
         } catch (error) {
             console.error("Fetching teams failed", error);
         }
@@ -35,7 +37,7 @@ const TeamManagement = () => {
     }
     const DeleteTeam = (id) => {
         const accessToken = sessionStorage.getItem("access");
-        fetch(`\https://team-focu-z-backend.vercel.app/team/teams/${id}/`, {
+        fetch(`https://team-focu-z-backend.vercel.app/team/teams/${id}/`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
@@ -45,9 +47,31 @@ const TeamManagement = () => {
             .then((response) => {
                 if (response.ok) {
                     setTeams((prev) => prev.filter((team) => team.id !== id));
-                    alert("টিম সফলভাবে মুছে ফেলা হয়েছে");
+                    // alert("টিম সফলভাবে মুছে ফেলা হয়েছে");
+                    toast.success('টিম সফলভাবে মুছে ফেলা হয়েছে', {
+                        position: "top-right",
+                        autoClose: 3000,
+                        hideProgressBar: false,
+                        closeOnClick: false,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                        transition: Bounce,
+                    });
                 } else {
-                    alert("টিম মুছে ফেলার সময় ত্রুটি ঘটেছে");
+
+                    toast.error('টিম মুছে ফেলার সময় ত্রুটি ঘটেছে', {
+                        position: "top-right",
+                        autoClose: 3000,
+                        hideProgressBar: false,
+                        closeOnClick: false,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                        transition: Bounce,
+                    });
                 }
             })
             .catch((error) => {

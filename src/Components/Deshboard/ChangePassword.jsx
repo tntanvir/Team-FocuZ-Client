@@ -26,7 +26,7 @@ const ChangePassword = () => {
         };
 
         try {
-            const response = await fetch('\https://team-focu-z-backend.vercel.app/auth/change-password/', {
+            const response = await fetch('https://team-focu-z-backend.vercel.app/auth/change-password/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
