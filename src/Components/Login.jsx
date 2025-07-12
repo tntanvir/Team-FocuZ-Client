@@ -6,6 +6,8 @@ import { toast, Bounce } from 'react-toastify';
 export default function Login() {
     const [showPassword, setShowPassword] = useState(false)
     const navigate = useNavigate();
+    const baseURL = import.meta.env.VITE_BACKEND_URL;
+    // console.log(baseURL)
 
     const handleLogin = (e) => {
         e.preventDefault()
@@ -15,7 +17,7 @@ export default function Login() {
         // console.log(username, password);
         // form.reset();
 
-        fetch('https://team-focu-z-backend.vercel.app/auth/login/', {
+        fetch(`${baseURL}/auth/login/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

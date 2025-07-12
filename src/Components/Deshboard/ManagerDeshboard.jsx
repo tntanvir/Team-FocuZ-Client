@@ -3,9 +3,9 @@ import { FaVideo, FaMicrophone, FaPenFancy, FaRocket } from "react-icons/fa";
 
 const ManagerDeshboard = () => {
     const [report, setReport] = useState([]);
-
+    const baseURL = import.meta.env.VITE_BACKEND_URL;
     useEffect(() => {
-        fetch("https://team-focu-z-backend.vercel.app/report/manager/report/", {
+        fetch(`${baseURL}/report/manager/report/`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

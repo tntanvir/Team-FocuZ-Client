@@ -8,10 +8,10 @@ export default function AllUsers() {
     const [roleFilter, setRoleFilter] = useState("");
     const [editUser, setEditUser] = useState(null);
     const [teams, setTeams] = useState([]);
-
+    const baseURL = import.meta.env.VITE_BACKEND_URL;
     // Fetch all users
     useEffect(() => {
-        fetch("https://team-focu-z-backend.vercel.app/auth/alluser/", {
+        fetch(`${baseURL}/auth/alluser/`, {
             headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${sessionStorage.getItem("access")}`,
@@ -24,7 +24,7 @@ export default function AllUsers() {
 
     // Fetch all teams (needed for validation in editing)
     useEffect(() => {
-        fetch("https://team-focu-z-backend.vercel.app/team/teams/", {
+        fetch(`${baseURL}/team/teams/`, {
             headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${sessionStorage.getItem("access")}`,
@@ -39,7 +39,7 @@ export default function AllUsers() {
     const handleDeleteClick = (user) => {
         if (!window.confirm(`Are you sure you want to delete ${user.Name || user.username}?`)) return;
 
-        fetch(`https://team-focu-z-backend.vercel.app/auth/alluser/${user.id}/`, {
+        fetch(`${baseURL}/auth/alluser/${user.id}/`, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
@@ -312,7 +312,7 @@ function EditUserModal({ user, onClose, onSave, teams, allUsers }) {
 
             // Update user info first
             const res = await fetch(
-                `https://team-focu-z-backend.vercel.app/auth/alluser/${user.id}/`,
+                `${baseURL}/auth/alluser/${user.id}/`,
                 {
                     method: "PATCH",
                     headers: {
@@ -351,7 +351,7 @@ function EditUserModal({ user, onClose, onSave, teams, allUsers }) {
                         // if manager was user, clear manager on old team
                         ...(team.manager === user.id ? { manager: null } : {}),
                     };
-                    const res = await fetch(`https://team-focu-z-backend.vercel.app/auth/team/${team.id}/update/`,
+                    const res = await fetch(`${baseURL}/auth/team/${team.id}/update/`,
                         {
                             method: "PATCH",
                             headers: {
@@ -395,7 +395,7 @@ function EditUserModal({ user, onClose, onSave, teams, allUsers }) {
                 };
 
                 const teamRes = await fetch(
-                    `https://team-focu-z-backend.vercel.app/auth/team/${selectedTeam.id}/update/`,
+                    `${baseURL}/auth/team/${selectedTeam.id}/update/`,
                     {
                         method: "PATCH",
                         headers: {

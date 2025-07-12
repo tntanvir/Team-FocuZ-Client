@@ -25,9 +25,9 @@ const FileCard = ({ file }) => {
         const access = sessionStorage.getItem("access");
         const newStatus = !currentStatus; // Toggle approved status
 
+        const baseURL = import.meta.env.VITE_BACKEND_URL;
 
-
-        fetch(`https://team-focu-z-backend.vercel.app/media/data/${id}/`, {
+        fetch(`${baseURL}/media/data/${id}/`, {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json",
@@ -73,7 +73,7 @@ const FileCard = ({ file }) => {
         const newDownloadCount = currentDownloadCount + 1;
 
         // First, make the PATCH request to update the download count
-        fetch(`https://team-focu-z-backend.vercel.app/media/data/${id}/`, {
+        fetch(`${baseURL}/media/data/${id}/`, {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json",
@@ -180,7 +180,7 @@ const AllFiles = () => {
 
     // Fetch available teams
     useEffect(() => {
-        fetch('https://team-focu-z-backend.vercel.app/team/teams/')
+        fetch(`${baseURL}/team/teams/`)
             .then(res => res.json())
             .then(data => setTeams(data))  // Store teams data
             .catch(err => console.error("Error fetching teams:", err));
@@ -189,7 +189,7 @@ const AllFiles = () => {
     useEffect(() => {
         const fetchUserRole = async () => {
             const access = sessionStorage.getItem("access");
-            const response = await fetch('https://team-focu-z-backend.vercel.app/auth/profile/', {
+            const response = await fetch(`${baseURL}/auth/profile/`, {
                 headers: {
                     Authorization: `Bearer ${access}`,
                 },
@@ -203,7 +203,7 @@ const AllFiles = () => {
 
     const fetchFiles = (url) => {
         setLoading(true); // Set loading to true when fetching data
-        fetch(url || "https://team-focu-z-backend.vercel.app/media/data/", {
+        fetch(url || `${baseURL}/media/data/`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -231,7 +231,7 @@ const AllFiles = () => {
     };
 
     useEffect(() => {
-        let url = "https://team-focu-z-backend.vercel.app/media/data/?";
+        let url = `${baseURL}/media/data/?`;
         if (teamFilter !== "All Teams") {
             url += `team=${teamFilter}&`;
         }

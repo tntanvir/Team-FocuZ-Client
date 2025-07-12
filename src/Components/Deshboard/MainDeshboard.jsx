@@ -54,9 +54,9 @@ export default function MainDeshboard() {
 
     const [userData, setUserData] = useState(null);
 
-
+    const baseURL = import.meta.env.VITE_BACKEND_URL;
     useEffect(() => {
-        fetch('https://team-focu-z-backend.vercel.app/media/user/report/', {
+        fetch(`${baseURL}/media/user/report/`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -73,7 +73,7 @@ export default function MainDeshboard() {
 
     // Fetch Data
     useEffect(() => {
-        fetch('https://team-focu-z-backend.vercel.app/media/report/')
+        fetch(`${baseURL}/media/report/`)
             .then(response => {
                 if (!response.ok) throw new Error('Network response was not ok');
                 return response.json();

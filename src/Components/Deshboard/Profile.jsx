@@ -14,12 +14,13 @@ const Profile = () => {
 
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
+    const baseURL = import.meta.env.VITE_BACKEND_URL;
 
     // Fetch user profile when the component mounts
     useEffect(() => {
         const fetchUserProfile = async () => {
             try {
-                const response = await fetch('https://team-focu-z-backend.vercel.app/auth/profile/', {
+                const response = await fetch(`${baseURL}/auth/profile/`, {
                     method: 'GET',
                     headers: {
                         Authorization: `Bearer ${sessionStorage.getItem('access')}`,
@@ -97,7 +98,7 @@ const Profile = () => {
         setLoading(true);
 
         try {
-            const response = await fetch('https://team-focu-z-backend.vercel.app/auth/profile/', {
+            const response = await fetch(`${baseURL}/auth/profile/`, {
                 method: 'PATCH',
                 body: formData,
                 headers: {

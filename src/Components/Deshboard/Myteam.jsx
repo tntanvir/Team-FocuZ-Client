@@ -27,10 +27,12 @@ const Myteam = () => {
         }
     }, []);
 
+    const baseURL = import.meta.env.VITE_BACKEND_URL;
+
     useEffect(() => {
         if (role) {
 
-            fetch(`https://team-focu-z-backend.vercel.app/report/report/${role}/`)
+            fetch(`${baseURL}/report/report/${role}/`)
                 .then((res) => res.json())
                 .then((data) => {
                     setReport(data);

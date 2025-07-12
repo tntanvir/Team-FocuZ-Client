@@ -7,7 +7,7 @@ const ChangePassword = () => {
     const [error, setError] = useState('');
     const [message, setMessage] = useState('');
     // Authorization: `Bearer ${sessionStorage.getItem("access")}`,
-
+    const baseURL = import.meta.env.VITE_BACKEND_URL;
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -26,7 +26,7 @@ const ChangePassword = () => {
         };
 
         try {
-            const response = await fetch('https://team-focu-z-backend.vercel.app/auth/change-password/', {
+            const response = await fetch(`${baseURL}/auth/change-password/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

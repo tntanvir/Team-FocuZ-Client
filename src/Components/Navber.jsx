@@ -8,6 +8,7 @@ import { DrawerContext } from '../Utils/SidebarContext';
 const Navber = () => {
     const [user, setUser] = useState(null);
     const navigate = useNavigate();
+    const baseURL = import.meta.env.VITE_BACKEND_URL;
 
     const fetchProfile = async () => {
         const token = sessionStorage.getItem("access");
@@ -16,7 +17,7 @@ const Navber = () => {
 
 
         try {
-            const res = await fetch("https://team-focu-z-backend.vercel.app/auth/profile/", {
+            const res = await fetch(`${baseURL}/auth/profile/`, {
                 headers: {
                     "Authorization": `Bearer ${token}`,
                 },
@@ -47,7 +48,7 @@ const Navber = () => {
         }
 
         try {
-            const response = await fetch('https://team-focu-z-backend.vercel.app/auth/logout/', {
+            const response = await fetch(`${baseURL}/auth/logout/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

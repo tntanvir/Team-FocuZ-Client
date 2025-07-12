@@ -6,11 +6,12 @@ import { Bounce, toast } from "react-toastify";
 const TeamManagement = () => {
     const [teams, setTeams] = useState([]);
     const [showModal, setShowModal] = useState(false);
+    const baseURL = import.meta.env.VITE_BACKEND_URL;
 
     const fetchTeams = async () => {
         try {
             const accessToken = sessionStorage.getItem("access");
-            const res = await fetch("https://team-focu-z-backend.vercel.app/team/teams/", {
+            const res = await fetch(`${baseURL}/team/teams/`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
@@ -37,7 +38,7 @@ const TeamManagement = () => {
     }
     const DeleteTeam = (id) => {
         const accessToken = sessionStorage.getItem("access");
-        fetch(`https://team-focu-z-backend.vercel.app/team/teams/${id}/`, {
+        fetch(`${baseURL}/team/teams/${id}/`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',

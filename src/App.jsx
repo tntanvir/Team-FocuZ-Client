@@ -20,6 +20,7 @@ import Profile from "./Components/Deshboard/Profile";
 
 
 const App = () => {
+  const baseURL = import.meta.env.VITE_BACKEND_URL;
   const refreshToken = async () => {
     const refresh = sessionStorage.getItem("refresh");
 
@@ -29,7 +30,7 @@ const App = () => {
     }
 
     try {
-      const res = await fetch("https://team-focu-z-backend.vercel.app/auth/refresh/", {
+      const res = await fetch(`${baseURL}/auth/refresh/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

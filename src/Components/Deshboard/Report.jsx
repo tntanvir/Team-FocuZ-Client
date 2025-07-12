@@ -15,9 +15,9 @@ import {
 
 export default function Report() {
     const [reportData, setReportData] = useState([]);
-
+    const baseURL = import.meta.env.VITE_BACKEND_URL;
     useEffect(() => {
-        fetch("https://team-focu-z-backend.vercel.app/report/report/")
+        fetch(`${baseURL}/report/report/`)
             .then((res) => res.json())
             .then((data) => setReportData(data));
     }, []);

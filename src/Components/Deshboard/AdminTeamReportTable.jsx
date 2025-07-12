@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 
 const AdminTeamReportTable = () => {
     const [reportData, setReportData] = useState([]);
+    const baseURL = import.meta.env.VITE_BACKEND_URL;
 
     useEffect(() => {
-        fetch("https://team-focu-z-backend.vercel.app/report/admin/report/", {
+        fetch(`${baseURL}/report/admin/report/`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
