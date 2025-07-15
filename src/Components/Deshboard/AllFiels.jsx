@@ -20,12 +20,12 @@ const FileCard = ({ file }) => {
 
     const formatDate = (dateStr) => new Date(dateStr).toISOString().split("T")[0];
 
+    const baseURL = import.meta.env.VITE_BACKEND_URL;
     const handleApprove = (id, currentStatus) => {
 
         const access = sessionStorage.getItem("access");
         const newStatus = !currentStatus; // Toggle approved status
 
-        const baseURL = import.meta.env.VITE_BACKEND_URL;
 
         fetch(`${baseURL}/media/data/${id}/`, {
             method: "PATCH",
