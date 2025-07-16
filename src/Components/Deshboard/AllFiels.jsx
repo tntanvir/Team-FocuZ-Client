@@ -177,7 +177,7 @@ const AllFiles = () => {
     const [teamFilter, setTeamFilter] = useState("All Teams"); // Track team filter
     const [categoryFilter, setCategoryFilter] = useState("All"); // Track category filter
     const [teams, setTeams] = useState([]); // Track available teams
-
+    const baseURL = import.meta.env.VITE_BACKEND_URL;
     // Fetch available teams
     useEffect(() => {
         fetch(`${baseURL}/team/teams/`)
