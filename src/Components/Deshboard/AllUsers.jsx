@@ -258,7 +258,7 @@ function EditUserModal({ user, onClose, onSave, teams, allUsers }) {
         setSelectedTeamName(user?.teams?.[0]?.name || "");
         setIsActive(user.is_active);  // Set the initial state for 'is_active'
     }, [user]);
-
+    const baseURL = import.meta.env.VITE_BACKEND_URL;
     // Change handler for inputs
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -408,7 +408,7 @@ function EditUserModal({ user, onClose, onSave, teams, allUsers }) {
                 if (!teamRes.ok) throw new Error("Team update failed");
             }
 
-            // alert("✅ ইউজার সফলভাবে আপডেট হয়েছে");
+
             toast.success('✅ ইউজার সফলভাবে আপডেট হয়েছে', {
                 position: "top-right",
                 autoClose: 3000,
@@ -422,8 +422,7 @@ function EditUserModal({ user, onClose, onSave, teams, allUsers }) {
             });
             onSave(updatedUser);
         } catch (err) {
-            // console.error(err);
-            // alert("❌ আপডেট করতে সমস্যা হয়েছে");
+
             toast.error('❌ আপডেট করতে সমস্যা হয়েছে', {
                 position: "top-right",
                 autoClose: 3000,
