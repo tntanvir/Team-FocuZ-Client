@@ -6,7 +6,7 @@ import { Bounce, toast } from "react-toastify";
 export default function Fileupload() {
     const [file, setFile] = useState(null);
     const [title, setTitle] = useState("");
-    const [tag, setTag] = useState("");
+    const [tag, setTag] = useState("video");
     const [role, setRole] = useState(""); // Add state for role
     const [teams, setTeams] = useState(null);
     // State to store the teams data
@@ -164,19 +164,19 @@ export default function Fileupload() {
         setFile(droppedFile);
     };
 
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Ensure file is selected
         if (!file) return alert("ফাইল নির্বাচন করুন");
 
         const formData = new FormData();
         formData.append("file", file);
-        formData.append("upload_preset", "DreamFocuZ"); // Ensure this matches with your Cloudinary preset
-        formData.append("cloud_name", "dcebkf2od"); // Ensure this is your correct Cloudinary cloud name
+        formData.append("upload_preset", "DreamFocuZ");
+        formData.append("cloud_name", "dcebkf2od");
 
         try {
-            let uploadUrl = "https://api.cloudinary.com/v1_1/dcebkf2od/upload";  // General upload URL
+            let uploadUrl = "https://api.cloudinary.com/v1_1/dcebkf2od/upload";
 
             if (file.name.endsWith(".mp4") || file.name.endsWith(".mov")) {
                 uploadUrl = "https://api.cloudinary.com/v1_1/dcebkf2od/video/upload";
@@ -190,15 +190,12 @@ export default function Fileupload() {
             const data = await res.json();
 
             if (res.ok && data.secure_url) {
-                // alert("✅ আপলোড সফল হয়েছে!");
-                // console.log("Uploaded URL:", data.secure_url);
-
                 const access = sessionStorage.getItem("access");
                 const mediaPayload = {
                     title,
                     tag,
-                    file: data.secure_url,  // Cloudinary URL of the uploaded file
-                    team: selectedTeam, // Send selected team along with other data
+                    file: data.secure_url,
+                    team: selectedTeam,
                 };
 
                 const backendRes = await fetch(`${baseURL}/media/data/`, {
@@ -211,13 +208,10 @@ export default function Fileupload() {
                 });
 
                 if (backendRes.ok) {
-                    // alert("✅ ডাটাবেজে সংরক্ষণ সফল হয়েছে");
-
-                    setFile(null); // Clear the file input
-                    setTitle(""); // Clear the title input
-                    setTag(""); // Clear the tag input
-                    setSelectedTeam(""); // Clear the selected team
-
+                    setFile(null);
+                    setTitle("");
+                    setTag("");
+                    setSelectedTeam("");
 
                     toast.success('✅ ডাটাবেজে সংরক্ষণ সফল হয়েছে', {
                         position: "top-right",
@@ -230,11 +224,7 @@ export default function Fileupload() {
                         theme: "light",
                         transition: Bounce,
                     });
-                    formData.reset(); // Reset form data after successful upload
                 } else {
-                    const errorResult = await backendRes.json();
-                    // console.error("Backend error:", errorResult);
-                    // alert("❌ ব্যাকেন্ডে আপলোড ব্যর্থ হয়েছে");
                     toast.error('❌ ব্যাকেন্ডে আপলোড ব্যর্থ হয়েছে', {
                         position: "top-right",
                         autoClose: 3000,
@@ -246,11 +236,10 @@ export default function Fileupload() {
                         theme: "light",
                         transition: Bounce,
                     });
+                    console.log("Backend upload failed", backendRes);
                 }
             } else {
-                console.error("Cloudinary upload failed:", data);
-                // alert("❌ ক্লাউডিনারিতে আপলোড ব্যর্থ হয়েছে");
-                toast.error('❌ ক্লাউডিনারিতে আপলোড ব্যর্থ হয়েছে', {
+                toast.error('❌ ক্লাউডিনারিতে আপলোড ব্যর্থ হয়েছে1', {
                     position: "top-right",
                     autoClose: 3000,
                     hideProgressBar: false,
@@ -261,11 +250,12 @@ export default function Fileupload() {
                     theme: "light",
                     transition: Bounce,
                 });
+                console.error("Cloudinary upload failed:", data);
             }
         } catch (error) {
-            // console.error("Upload error:", error);
-            // alert("❌ Cloudinary আপলোডে সমস্যা");
-            toast.error('❌ ক্লাউডিনারিতে আপলোড ব্যর্থ হয়েছে', {
+            console.error("Error during file upload or backend request:", error);
+
+            toast.error('❌ ক্লাউডিনারিতে আপলোড ব্যর্থ হয়েছে2', {
                 position: "top-right",
                 autoClose: 3000,
                 hideProgressBar: false,
@@ -278,6 +268,7 @@ export default function Fileupload() {
             });
         }
     };
+
 
     const getAcceptedFileTypes = () => {
         if (role === "script writer") {
@@ -392,7 +383,7 @@ export default function Fileupload() {
                                 >
                                     <option value="">Select a Team</option>
                                     {teams.map((team) => (
-                                        <option key={team.id} value={team.name}>
+                                        <option key={team.id} value={team.id}>
                                             {team.name}
                                         </option>
                                     ))}

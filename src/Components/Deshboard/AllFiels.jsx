@@ -119,7 +119,7 @@ const FileCard = ({ file }) => {
             </div>
 
             <p className="text-blue-600 font-medium text-sm">
-                Team: {file.team_name || file.team || "Unknown"}
+                Team: {file?.team?.name || "Unknown"}
             </p>
 
             <p className="text-sm text-gray-700">
@@ -173,7 +173,7 @@ const AllFiles = () => {
     const [nextPage, setNextPage] = useState(null);
     const [previousPage, setPreviousPage] = useState(null);
     const [loading, setLoading] = useState(false); // Track loading state
-    const [error, setError] = useState(''); // Track error state
+    const [error, setError] = useState('');
     const [teamFilter, setTeamFilter] = useState("All Teams"); // Track team filter
     const [categoryFilter, setCategoryFilter] = useState("All"); // Track category filter
     const [teams, setTeams] = useState([]); // Track available teams
@@ -202,7 +202,7 @@ const AllFiles = () => {
     }, []);
 
     const fetchFiles = (url) => {
-        setLoading(true); // Set loading to true when fetching data
+        setLoading(true);
         fetch(url || `${baseURL}/media/data/`, {
             method: "GET",
             headers: {
@@ -221,12 +221,13 @@ const AllFiles = () => {
                 console.log(data)
                 setNextPage(data.next);
                 setPreviousPage(data.previous);
-                setLoading(false); // Set loading to false after the data is fetched
+                setLoading(false);
+                setError('')
             })
             .catch((err) => {
                 console.error("Fetch error:", err);  // Log detailed error
-                setError(`Failed to fetch data. Error: ${err.message}`); // Show detailed error message
-                setLoading(false); // Set loading to false even if there is an error
+                setError(`Failed to fetch data. Error: ${err.message}`);
+                setLoading(false);
             });
     };
 
@@ -252,7 +253,7 @@ const AllFiles = () => {
                     >
                         <option value="All Teams">All Teams</option>
                         {teams.map((team) => (
-                            <option key={team.id} value={team.name}>
+                            <option key={team.id} value={team.id}>
                                 {team.name}
                             </option>
                         ))}

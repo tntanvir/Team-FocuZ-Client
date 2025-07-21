@@ -106,7 +106,10 @@ export default function Sidebar() {
 
 
             <NavLink to="/dashboard/files" className={linkClass}><FaFileAlt /> সব ফাইল</NavLink>
-            <NavLink to="/dashboard/upload" className={linkClass}><FaUpload /> ফাইল আপলোড</NavLink>
+            {
+                role !== "manager" && <NavLink to="/dashboard/upload" className={linkClass}><FaUpload /> ফাইল আপলোড</NavLink>
+            }
+
             {role !== "admin" && <NavLink to="/dashboard/myteam" className={linkClass}><FaUpload /> আমার টিম</NavLink>}
 
             <NavLink to="/dashboard/settings" className={linkClass}><FaCog /> সেটিংস</NavLink>
